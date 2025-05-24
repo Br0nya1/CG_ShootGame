@@ -107,5 +107,5 @@ void PrepareOpenGL() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // 把背景设置为天蓝色
-    glClearColor(0.529f, 0.808f, 0.922f, 0.0f);
+    glClearColor(0.f, 0.f, 0.1f, 0.0f);
 }

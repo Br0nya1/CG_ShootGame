@@ -6,6 +6,7 @@
 #include "player.h"
 #include "camera.h"
 #include "ballmanager.h"
+#include "enemy.h"
 
 class World {
 private:
@@ -16,7 +17,7 @@ private:
 	Player* player;				// 玩家
 	Camera* camera;				// 摄像机
 	BallManager* ball;			// 小球
-
+	Enemy* enemy;
 	// 阴影
 	GLuint depthMap;
 	GLuint depthMapFBO;
@@ -38,6 +39,7 @@ public:
 		place = new Place(windowSize, camera);
 		player = new Player(windowSize, camera);
 		ball = new BallManager(windowSize, camera);
+		enemy = new Enemy(windowSize, camera);
 
 		glGenFramebuffers(1, &depthMapFBO);
 		glGenTextures(1, &depthMap);
@@ -53,10 +55,12 @@ public:
 		camera->Update(deltaTime);
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
 			ball->Update(camera->GetPosition(), camera->GetFront(), true);
+			enemy->Update(camera->GetPosition(), camera->GetFront(), true);
 			player->Update(deltaTime, true);
 		}
 		else {
 			ball->Update(camera->GetPosition(), camera->GetFront(), false);
+			enemy->Update(camera->GetPosition(), camera->GetFront(), false);
 			player->Update(deltaTime, false);
 		}
 		place->Update();
@@ -68,6 +72,7 @@ public:
 		place->RoomRender(NULL, depthMap);
 		place->SunRender();
 		ball->Render(NULL, depthMap);
+		enemy->Render(NULL, depthMap);
 	}
 
 	GLuint GetScore() {
