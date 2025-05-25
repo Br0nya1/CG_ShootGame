@@ -19,13 +19,18 @@ private:
     Model* enemy;
     Shader* enemyShader;
     Texture* diffuseMap;
-    GLuint maxNumber; // ��ǰ���ϵ�������
-    GLuint killCount; // �ѻ�ɱ������
+    GLuint maxNumber; // 当前场上的敌人数量
+    GLuint killCount; // 已击杀敌人数
     vec3 basicPos;
     vector<vec3> position;
     vector<float> angles;
     Camera* camera;
     mat4 model, projection, view;
+    
+    // 新增：定时生成敌人的系统
+    float spawnTimer;       // 生成计时器
+    float spawnInterval;    // 生成间隔（秒）
+    GLuint maxEnemyLimit;   // 场上敌人数量上限
 public:
     Enemy(vec2 windowSize, Camera* camera) {
         this->windowSize = windowSize;
@@ -33,44 +38,46 @@ public:
         basicPos = vec3(0.0, 0.0, 0.0);
         maxNumber = 6;
         killCount = 0;
+        
+        // 初始化定时生成系统
+        spawnTimer = 0.0f;
+        spawnInterval = 2.0f;   // 每2秒生成一个敌人
+        maxEnemyLimit = 20;     // 场上最多20个敌人
+        
         AddEnemy(maxNumber);
         LoadModel();
         LoadTexture();
         LoadShader();
     }
 
-    void Update(vec3 pos, vec3 dir, bool isShoot) {
+    void Update(vec3 pos, vec3 dir, bool isShoot, float deltaTime) {
         this->view = camera->GetViewMatrix();
         this->projection = perspective(radians(camera->GetZoom()), windowSize.x / windowSize.y, 0.1f, 500.0f);
 
-        // ���³���
+        // 更新朝向
         for (size_t i = 0; i < position.size(); ++i) {
             vec3 toPlayer = normalize(camera->GetPosition() - position[i]);
             angles[i] = atan2(toPlayer.x, toPlayer.z);
         }
 
+        // 处理玩家射击
         if (isShoot) {
             for (size_t i = 0; i < position.size(); ++i) {
                 vec3 des = (pos.z - position[i].z) / (-dir.z) * dir + pos;
                 float threshold=5;
                 if (abs(position[i].x - des.x)<=threshold&&abs(position[i].y - des.y) <=threshold) {
-                    // ���У��Ƴ�������
+                    // 命中，移除敌人
                     position.erase(position.begin() + i);
                     angles.erase(angles.begin() + i);
                     killCount++;
-                    AddEnemy(1); // ����һ��
-                    break; // һ��ֻ����һ��
+                    cout << "Enemy killed! Current kill count: " << killCount << endl;
+                    break; // 一次只击杀一个
                 }
             }
         }
-        std::cout << "killCount: " << killCount << std::endl;
-        for (size_t i = 0; i < position.size(); ++i) {
-            std::cout << "Enemy " << i << " position: ("
-                << position[i].x << ", "
-                << position[i].y << ", "
-                << position[i].z << ")" << std::endl;
-        }
-
+        
+        // 定时生成新敌人
+        UpdateEnemySpawning(deltaTime);
     }
 
     void Render(Shader* shader, GLuint depthMap = -1) {
@@ -100,6 +107,25 @@ public:
         }
     }
 
+    GLuint GetKillCount() {
+        return killCount;
+    }
+    
+    // 获取当前敌人数量
+    size_t GetEnemyCount() const {
+        return position.size();
+    }
+    
+    // 获取敌人数量上限
+    GLuint GetMaxEnemyLimit() const {
+        return maxEnemyLimit;
+    }
+    
+    // 新增：获取所有敌人位置，供子弹系统使用
+    vector<vec3> GetEnemyPositions() const {
+        return position;
+    }
+
 private:
     void LoadModel() {
         enemy = new Model("res/model/airen.obj");
@@ -127,7 +153,7 @@ private:
     void AddEnemy(GLuint count) {
         for (GLuint i = 0; i < count; i++) {
             int tryCount = 0;
-            while (tryCount < 100) { // ��ֹ��ѭ��
+            while (tryCount < 100) { // ֹѭ
                 float x = (rand() % 60) - 30;
                 float z = (rand() % 60) - 30;
                 float y = 11;
@@ -148,6 +174,17 @@ private:
                 return false;
         }
         return true;
+    }
+    
+    // 新增：定时生成敌人的方法
+    void UpdateEnemySpawning(float deltaTime) {
+        spawnTimer += deltaTime;
+        
+        if (spawnTimer >= spawnInterval && position.size() < maxEnemyLimit) {
+            AddEnemy(1);
+            spawnTimer = 0.0f;
+            cout << "New enemy spawned! Current enemy count: " << position.size() << endl;
+        }
     }
 };
 #endif // !ENEMY_H

@@ -9,9 +9,9 @@ GLFWwindow* window;
 vec2 windowSize;
 
 int main() {
-    // ÷°ÀŸ¬ 
-    const double TARGET_FRAME = 0.016667;                   // 1/60√Î£¨ µœ÷60÷°
-    const double FRAME_ALPHA = 0.25;                        // º∆À„œµ ˝
+    // ÷°
+    const double TARGET_FRAME = 0.016667;                   // 1/60Î£¨ µ60÷°
+    const double FRAME_ALPHA = 0.25;                        // œµ
     double currentFrame;
     double deltaTime;
     double lastFrame;
@@ -22,7 +22,7 @@ int main() {
     srand(time(0));
 
     GLuint gameModel = 1;
-    cout << "------------«Î—°‘Ò”Œœ∑ƒ£ Ω£∫1°¢–›œ–ƒ£ Ω£¨2°¢ÃÙ’Ωƒ£ Ω£® ‰»Îƒ£ Ω«∞µƒ–Ú∫≈º¥ø…£©------------\n";
+    cout << "------------—°œ∑ƒ£ Ω1ƒ£ Ω2’Ωƒ£ Ωƒ£ Ω«∞≈º…£------------\n";
     cin >> gameModel;
     cout << "\n";
         
@@ -38,7 +38,7 @@ int main() {
     float gameTime = 0;
 
     while (!glfwWindowShouldClose(window) && !glfwGetKey(window, GLFW_KEY_ESCAPE)) {
-        // «Û÷°ÀŸ¬ 
+        // ÷°
         currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
@@ -59,7 +59,8 @@ int main() {
         glfwPollEvents();
     }
     glfwTerminate();
-    cout << "----------------------------ƒ˙µƒµ√∑÷Œ™£∫" << world.GetScore() << " ----------------------------" << endl;
+    cout << "----------------------------Your Score: " << world.GetScore() << " ----------------------------" << endl;
+    cout << "----------------------------Remaining Health: " << world.GetPlayerHealth() << " ----------------------------" << endl;
     return 0;
 }
 
@@ -68,7 +69,7 @@ void OpenWindow() {
     int WIDTH = 1960;
     int HEIGHT = 1080;
 
-    // ≥ı ºªØGLFW
+    // ÂàùÂßãÂåñGLFW
     if (!glfwInit()) {
         cout << "Could not initialize GLFW" << endl;
         return;
@@ -101,11 +102,11 @@ void OpenWindow() {
 }
 
 void PrepareOpenGL() {
-    // ¥Úø™…Ó∂»≤‚ ‘∫ÕªÏ∫œ
+    // ÂêØÁî®Ê∑±Â∫¶ÊµãËØïÂíåÊ∑∑Âêà
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // ∞—±≥æ∞…Ë÷√Œ™ÃÏ¿∂…´
+    // Â∞ÜËÉåÊôØËâ≤ËÆæÁΩÆ‰∏∫Ê∑±Ëâ≤
     glClearColor(0.f, 0.f, 0.1f, 0.0f);
 }
