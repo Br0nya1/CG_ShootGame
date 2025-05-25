@@ -1,4 +1,4 @@
-#ifndef PLAYER_H
+ï»¿#ifndef PLAYER_H
 #define PLAYER_H
 
 #include <glad/glad.h>
@@ -9,22 +9,22 @@
 
 class Player {
 private:
-	vec2 windowSize;					// ´°¿Ú³ß´ç
-	// Ç¹µÄÏà¹ØÊý¾Ý
+	vec2 windowSize;					// ï¿½ï¿½ï¿½Ú³ß´ï¿½
+	// Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	Model* gun;
-	vec3 gunPos;						// Ç¹µÄÎ»ÖÃ×ø±ê
+	vec3 gunPos;						// Ç¹ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	Shader* gunShader;
-	mat4 gunModel;						// Ç¹Ä£ÐÍÎ»ÖÃ±ä»»¾ØÕó
-	Texture* diffuseMap;				// Âþ·´ÉäÌùÍ¼
-	Texture* specularMap;				// ¾µÃæ·´ÉäÌùÍ¼
-	float gunRecoil;					// ºó×ùÁ¦
-	// ×¼ÐÇ
+	mat4 gunModel;						// Ç¹Ä£ï¿½ï¿½Î»ï¿½Ã±ä»»ï¿½ï¿½ï¿½ï¿½
+	Texture* diffuseMap;				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
+	Texture* specularMap;				// ï¿½ï¿½ï¿½æ·´ï¿½ï¿½ï¿½ï¿½Í¼
+	float gunRecoil;					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ×¼ï¿½ï¿½
 	Model* dot;							
 	Shader* dotShader;
-	mat4 dotModel;						// ×¼ÐÇÄ£ÐÍÎ»ÖÃ±ä»»¾ØÕó
-	// ÉãÏñÍ·
+	mat4 dotModel;						// ×¼ï¿½ï¿½Ä£ï¿½ï¿½Î»ï¿½Ã±ä»»ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½Í·
 	Camera* camera;
-	// ±ä»»¾ØÕó
+	// ï¿½ä»»ï¿½ï¿½ï¿½ï¿½
 	mat4 projection;
 	mat4 view;
 public:
@@ -39,7 +39,7 @@ public:
 		LoadTexture();
 		LoadShader();
 	}
-	// ¸üÐÂ±ä»»¾ØÕó¡¢ÉãÏñÍ·Î»ÖÃµÈÊý¾Ý
+	// ï¿½ï¿½ï¿½Â±ä»»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·Î»ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½
 	void Update(float deltaTime,  bool isShoot) {
 		if (isShoot)
 			gunRecoil = 10.0f;
@@ -63,16 +63,26 @@ public:
 		gunModel = translate(gunModel, vec3(-0.225, 0.0, -0.225));
 		gunModel = rotate(gunModel, radians(-170.0f), vec3(0.0, 1.0, 0.0));
 	}
-	// äÖÈ¾³¡¾°
+	// ï¿½ï¿½È¾ï¿½ï¿½ï¿½ï¿½
 	void Render() {
+		// --- ï¿½ï¿½È¾×¼ï¿½ï¿½ (dot) ---
 		dotShader->Bind();
 		dotShader->SetMat4("projection", projection);
 		dotShader->SetMat4("view", view);
 		dotShader->SetMat4("model", dotModel);
 
-		glBindVertexArray(dot->GetVAO());
-		glDrawElements(GL_TRIANGLES, static_cast<GLuint>(dot->GetIndices().size()), GL_UNSIGNED_INT, 0);
+		// ï¿½Þ¸Ä¿ï¿½Ê¼: Ê¹ï¿½ï¿½ GetSubMeshes() ï¿½ï¿½È¾ dot Ä£ï¿½ï¿½
+		if (dot) { // È·ï¿½ï¿½ dot Ä£ï¿½ï¿½ï¿½Ñ¼ï¿½ï¿½ï¿½
+			const auto& dotSubMeshes = dot->GetSubMeshes();
+			if (!dotSubMeshes.empty()) {
+				const auto& firstSubMesh = dotSubMeshes[0]; // ï¿½ï¿½ï¿½ï¿½ dot ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¾ï¿½ï¿½Ò»ï¿½ï¿½
+				glBindVertexArray(firstSubMesh.VAO);
+				glDrawElements(GL_TRIANGLES, firstSubMesh.indexCount, GL_UNSIGNED_INT, 0);
+			}
+		}
+		// ï¿½Þ¸Ä½ï¿½ï¿½ï¿½
 
+		// --- ï¿½ï¿½È¾Ç¹ (gun) ---
 		gunShader->Bind();
 		gunShader->SetMat4("projection", projection);
 		gunShader->SetMat4("view", view);
@@ -83,24 +93,34 @@ public:
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, specularMap->GetId());
 
-		glBindVertexArray(gun->GetVAO());
-		glDrawElements(GL_TRIANGLES, static_cast<GLuint>(gun->GetIndices().size()), GL_UNSIGNED_INT, 0);
-		
-		glBindVertexArray(0);
-		gunShader->Unbind();
+		// ï¿½Þ¸Ä¿ï¿½Ê¼: Ê¹ï¿½ï¿½ GetSubMeshes() ï¿½ï¿½È¾ gun Ä£ï¿½ï¿½
+		if (gun) { // È·ï¿½ï¿½ gun Ä£ï¿½ï¿½ï¿½Ñ¼ï¿½ï¿½ï¿½
+			const auto& gunSubMeshes = gun->GetSubMeshes();
+			if (!gunSubMeshes.empty()) {
+				const auto& firstSubMesh = gunSubMeshes[0]; // ï¿½ï¿½ï¿½ï¿½ gun ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¾ï¿½ï¿½Ò»ï¿½ï¿½
+				glBindVertexArray(firstSubMesh.VAO);
+				glDrawElements(GL_TRIANGLES, firstSubMesh.indexCount, GL_UNSIGNED_INT, 0);
+			}
+		}
+		// ï¿½Þ¸Ä½ï¿½ï¿½ï¿½
+
+		glBindVertexArray(0); // ï¿½ï¿½ï¿½VAOï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ß£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½Æ²ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½Ò»ï¿½Î¼ï¿½ï¿½ï¿½
+		gunShader->Unbind(); // Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½
+		// dotShader Ò²Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó£¬»ï¿½ï¿½ï¿½È·ï¿½ï¿½ gunShader->Bind() ï¿½á¸²ï¿½ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½Çµï¿½ dotShader ï¿½ï¿½ gunShader ï¿½Ç·Ö¿ï¿½Ê¹ï¿½ÃµÄ£ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½Ô½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½Ê±ï¿½ï¿½ï¿½Â°ó¶¨µÄ¸ï¿½ï¿½ï¿½ï¿½ï¿½OKï¿½Ä¡ï¿½
 	}
 private:
-	// ¼ÓÔØÇ¹Ä£ÐÍ
+	// ï¿½ï¿½ï¿½ï¿½Ç¹Ä£ï¿½ï¿½
 	void LoadGun() {
 		gun = new Model("res/model/gun.obj");
 		dot = new Model("res/model/dot.obj");
 	}
-	// ¼ÓÔØÎÆÀí
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	void LoadTexture() {
 		diffuseMap = new Texture("res/texture/gun-diffuse-map.jpg");
 		specularMap = new Texture("res/texture/gun-specular-map.jpg");
 	}
-	// ¼ÓÔØ×ÅÉ«Æ÷
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½
 	void LoadShader() {
 		gunShader = new Shader("res/shader/gun.vert", "res/shader/gun.frag");
 		gunShader->Bind();

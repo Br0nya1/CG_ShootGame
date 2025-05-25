@@ -47,12 +47,12 @@ public:
 		place = new Place(windowSize, camera);
 		player = new Player(windowSize, camera);
 		ball = new BallManager(windowSize, camera);
-		enemy = new Enemy(windowSize, camera);
+		enemy = new Enemy(windowSize, camera, this->lightSpaceMatrix);
 
 		glGenFramebuffers(1, &depthMapFBO);
 		glGenTextures(1, &depthMap);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 2048, 2048, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);

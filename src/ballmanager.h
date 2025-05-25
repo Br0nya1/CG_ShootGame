@@ -195,34 +195,61 @@ public:
 		return bullets.size();
 	}
 	
-	// 渲染所有子弹
-	void Render(Shader* shader, GLuint depthMap = -1) {
-		for (size_t i = 0; i < bullets.size(); i++) {
-			model = mat4(1.0);
-			model[3] = vec4(bullets[i].position, 1.0);
-			model = scale(model, vec3(3));  // 子弹大小
-			
-			if (shader == NULL) {
-				shader = ballShader;
-				shader->Bind();
-				shader->SetMat4("projection", projection);
-				shader->SetMat4("view", view);
-				// 设置子弹颜色为红色
-				shader->SetVec3("color", vec3(1.0, 0.2, 0.2));
+	// 渲染所有当前激活的子弹
+	void Render(Shader* shaderToUse, GLuint depthMapID = 0) { 
+		if (!ball || !camera) return; // 增加 camera 检查
+
+		const auto& ballSubMeshes = ball->GetSubMeshes(); // 获取子弹模型的子网格信息
+		if (ballSubMeshes.empty()) return; 
+
+		const auto& firstBallSubMesh = ballSubMeshes[0]; // 假设子弹模型只有一个子网格
+
+		// 遍历的是 this->bullets 向量，而不是 this->position
+		for (size_t i = 0; i < bullets.size(); ++i) { // 使用 size_t
+			model = glm::mat4(1.0f);
+			model = glm::translate(model, bullets[i].position); // 使用 bullets[i].position
+			// model = glm::scale(model, glm::vec3(5.0f)); // 子弹大小，可以调整，原先是vec3(5)
+			model = glm::scale(model, glm::vec3(0.5f)); // 让子弹小一点，比如0.5的尺寸
+
+			Shader* currentShader = shaderToUse; 
+			if (currentShader == NULL) {
+				currentShader = ballShader; 
+				currentShader->Bind();
+				currentShader->SetMat4("projection", projection); // projection 和 view 应在循环外更新一次
+				currentShader->SetMat4("view", view);
+				currentShader->SetVec3("viewPos", camera->GetPosition()); // 实时更新 viewPos
+				// lightPos 和 lightSpaceMatrix 是静态的，已在LoadModel中设置
 			}
 			else {
-				shader->Bind();
+				currentShader->Bind(); 
 			}
-			shader->SetMat4("model", model);
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, depthMap);
-			glBindVertexArray(ball->GetVAO());
-			glDrawElements(GL_TRIANGLES, static_cast<GLuint>(ball->GetIndices().size()), GL_UNSIGNED_INT, 0);
-			
-			shader->Unbind();
-			glBindVertexArray(0);
-			model = mat4(1.0);
+
+			currentShader->SetMat4("model", model);
+
+			// 如果 ballShader 也需要进行阴影投射（即写入深度图时，它本身也需要被渲染）
+			// 或者 ballShader 需要接收阴影（即在主渲染通道，它需要采样 shadowMap）
+			if (currentShader == ballShader && depthMapID != 0) {
+				glActiveTexture(GL_TEXTURE0); // ballShader 的 "shadowMap" uniform 设置为单元0
+				glBindTexture(GL_TEXTURE_2D, depthMapID);
+				// ballShader->SetInt("shadowMap", 0); // 已在LoadModel中设置，此处无需重复
+			}
+			// 注意：ballShader 使用的是 "color" uniform，而不是漫反射纹理。
+			// 如果它也需要一个漫反射纹理，你需要像其他模型一样处理。
+
+			glBindVertexArray(firstBallSubMesh.VAO); // 使用子网格的 VAO
+			glDrawElements(GL_TRIANGLES, firstBallSubMesh.indexCount, GL_UNSIGNED_INT, 0); // 使用子网格的索引数量
 		}
+
+		// 在循环结束后解绑
+		if (shaderToUse == NULL && ballShader) { // 如果用的是自己的ballShader
+			ballShader->Unbind();
+		}
+		// 如果是外部传入的shader (shaderToUse != NULL)，通常由调用者（如World::RenderDepth）负责解绑其shader
+		// 或者按照约定，Render函数总是解绑它绑定的shader
+		// else if (shaderToUse != NULL) {
+		//     shaderToUse->Unbind(); // 可选的解绑
+		// }
+		glBindVertexArray(0); // 最后解绑VAO
 	}
 
 private:

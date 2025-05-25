@@ -1,6 +1,7 @@
-#ifndef MODEL_H
+ï»¿#ifndef MODEL_H
 #define MODEL_H
 
+#include <glm/glm.hpp>
 #include <glad/glad.h>
 #include <string>
 #include <iostream>
@@ -9,108 +10,146 @@ using namespace std;
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <assimp/material.h>
 using namespace Assimp;
+
+struct Triangle {
+    glm::vec3 v0, v1, v2; 
+    glm::vec3 normal;     
+
+    Triangle(const glm::vec3& p0, const glm::vec3& p1, const glm::vec3& p2)
+        : v0(p0), v1(p1), v2(p2) {
+        
+        
+        normal = glm::normalize(glm::cross(v1 - v0, v2 - v0));
+    }
+};
+
+struct SubMesh {
+    GLuint VAO;
+    GLuint VBO;
+    GLuint EBO;
+    unsigned int indexCount;
+    unsigned int materialIndex; 
+
+    std::vector<glm::vec3> vertices; 
+    std::vector<GLuint> indices;    
+    SubMesh() : VAO(0), VBO(0), EBO(0), indexCount(0), materialIndex(0) {}
+};
 
 class Model {
 private:
-    vector<GLfloat> vertices;           // ¶¥µã×ø±ê
-    vector<GLuint> indices;             // ×ø±êË÷Òý
-    GLuint VAO;                         // Ä£ÐÍµÄ»º³åÊý¾Ý
+    std::vector<SubMesh> subMeshes;
 public:
-    Model(const string& path) {
+    Model(const std::string& path, const aiScene** outScene = nullptr) {
         LoadModel(path);
-        SetVAO();
     }
 
-    GLuint GetVAO() {
-        return VAO;
+    const std::vector<SubMesh>& GetSubMeshes() const {
+        return subMeshes;
     }
 
-    vector<GLuint> GetIndices() {
-        return indices;
+    void GetAllTriangles(std::vector<Triangle>& outTriangles) const {
+        outTriangles.clear();
+        for (const auto& submesh : subMeshes) {
+            for (size_t i = 0; i < submesh.indices.size(); i += 3) {
+                if (i + 2 < submesh.indices.size()) { 
+                    glm::vec3 v0 = submesh.vertices[submesh.indices[i]];
+                    glm::vec3 v1 = submesh.vertices[submesh.indices[i + 1]];
+                    glm::vec3 v2 = submesh.vertices[submesh.indices[i + 2]];
+                    outTriangles.emplace_back(v0, v1, v2);
+                }
+            }
+        }
+    }
+
+    ~Model() {
+        for (const auto& mesh : subMeshes) {
+            glDeleteVertexArrays(1, &mesh.VAO);
+            glDeleteBuffers(1, &mesh.VBO);
+            glDeleteBuffers(1, &mesh.EBO);
+        }
     }
 private:
-    // ´ÓÎÄ¼þÖÐÔØÈëÄ£ÐÍ£¬Ê¹ÓÃassimp¿â²Ù×÷
-    void LoadModel(const string& path) {
-        Importer importer;
+
+    void LoadModel(const std::string& path) {
+        Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals);
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-            cout << "ERROR::ASSIMP::" << importer.GetErrorString() << endl;
+            std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
             return;
         }
         ProcessNode(scene->mRootNode, scene);
     }
-    // ¶ÔËùÓÐ½Úµã½øÐÐ²Ù×÷
+
     void ProcessNode(aiNode* node, const aiScene* scene) {
-        // ¶Ôµ±Ç°½ÚµãµÄËùÓÐÍø¸ñ½øÐÐ²Ù×÷
         for (GLuint i = 0; i < node->mNumMeshes; i++) {
-            // nodeÖÐÖ»°üº¬ÁËÖ¸ÏòsceneÖÐÊý¾ÝµÄË÷Òý
             aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-            ProcessMesh(mesh, scene);
+            subMeshes.push_back(ProcessMesh(mesh, scene));
         }
-        // ´¦Àí×Ó½Úµã
         for (GLuint i = 0; i < node->mNumChildren; i++) {
             ProcessNode(node->mChildren[i], scene);
         }
     }
-    // ¶Ô½ÚµãÖÐµÄËùÓÐÍø¸ñ½øÐÐ²Ù×÷
-    void ProcessMesh(aiMesh* mesh, const aiScene* scene) {
-        // ±éÀúËùÓÐÍø¸ñµÄ¶¥µã
+
+    SubMesh ProcessMesh(aiMesh* mesh, const aiScene* scene) {
+        std::vector<GLfloat> vertexBufferData; 
+        SubMesh currentSubMesh;
+
+
         for (GLuint i = 0; i < mesh->mNumVertices; i++) {
-            // Î»ÖÃ×ø±ê
-            vertices.push_back(mesh->mVertices[i].x);
-            vertices.push_back(mesh->mVertices[i].y);
-            vertices.push_back(mesh->mVertices[i].z);
+            glm::vec3 pos;
+            pos.x = mesh->mVertices[i].x;
+            pos.y = mesh->mVertices[i].y;
+            pos.z = mesh->mVertices[i].z;
+            currentSubMesh.vertices.push_back(pos);
 
-            // ·¨Ïß×ø±ê
-            vertices.push_back(mesh->mNormals[i].x);
-            vertices.push_back(mesh->mNormals[i].y);
-            vertices.push_back(mesh->mNormals[i].z);
+            vertexBufferData.push_back(pos.x);
+            vertexBufferData.push_back(pos.y);
+            vertexBufferData.push_back(pos.z);
 
-            // ÎÆÀí×ø±ê
-            if (mesh->mTextureCoords[0]) {
-                vertices.push_back(mesh->mTextureCoords[0][i].x);
-                vertices.push_back(mesh->mTextureCoords[0][i].y);
+            if (mesh->HasNormals()) {
+                vertexBufferData.push_back(mesh->mNormals[i].x);
+                vertexBufferData.push_back(mesh->mNormals[i].y);
+                vertexBufferData.push_back(mesh->mNormals[i].z);
+            } else {
+                vertexBufferData.push_back(0); vertexBufferData.push_back(0); vertexBufferData.push_back(0);
             }
-            else {
-                vertices.push_back(0);
-                vertices.push_back(0);
+            if (mesh->mTextureCoords[0]) {
+                vertexBufferData.push_back(mesh->mTextureCoords[0][i].x);
+                vertexBufferData.push_back(mesh->mTextureCoords[0][i].y);
+            } else {
+                vertexBufferData.push_back(0); vertexBufferData.push_back(0);
             }
         }
 
-        // ±éÀúÍø¸ñµÄÃæ£¬»ñÈ¡Ë÷Òý
-        for (GLuint i = 0; i < mesh->mNumFaces; i++)
-        {
+        for (GLuint i = 0; i < mesh->mNumFaces; i++) {
             aiFace face = mesh->mFaces[i];
             for (GLuint j = 0; j < face.mNumIndices; j++)
-                indices.push_back(face.mIndices[j]);
+                currentSubMesh.indices.push_back(face.mIndices[j]);
         }
-    }
-    // ½«¶ÁÈ¡µÄÄ£ÐÍÊý¾ÝÔØÈë»º³åÇø£¬±ãÓÚºóÐøÊ¹ÓÃ
-    void SetVAO() {
-        GLuint VBO, EBO;
-        glGenVertexArrays(1, &VAO);
-        glGenBuffers(1, &VBO);
-        glGenBuffers(1, &EBO);
 
-        glBindVertexArray(VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+        currentSubMesh.indexCount = static_cast<unsigned int>(currentSubMesh.indices.size());
+        currentSubMesh.materialIndex = mesh->mMaterialIndex;
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * indices.size(), &indices[0], GL_STATIC_DRAW);
+        glGenVertexArrays(1, &currentSubMesh.VAO);
+        glGenBuffers(1, &currentSubMesh.VBO);
+        glGenBuffers(1, &currentSubMesh.EBO);
+        glBindVertexArray(currentSubMesh.VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, currentSubMesh.VBO);
+        glBufferData(GL_ARRAY_BUFFER, vertexBufferData.size() * sizeof(GLfloat), &vertexBufferData[0], GL_STATIC_DRAW);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, currentSubMesh.EBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, currentSubMesh.indices.size() * sizeof(GLuint), &currentSubMesh.indices[0], GL_STATIC_DRAW);
 
-        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(0); // Position
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 8, (void*)0);
-
-        glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(1); // Normal
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 8, (void*)(3 * sizeof(GLfloat)));
-
-        glEnableVertexAttribArray(2);
+        glEnableVertexAttribArray(2); // TexCoord
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 8, (void*)(6 * sizeof(GLfloat)));
-
         glBindVertexArray(0);
+        return currentSubMesh;
     }
 };
 

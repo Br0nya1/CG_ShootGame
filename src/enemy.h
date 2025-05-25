@@ -1,6 +1,5 @@
-#ifndef ENEMY_H
-#ifndef ENEMY_H
-#endif  ENEMY_H
+#ifndef ENEMY_H 
+#define ENEMY_H
 
 #include <glm/glm.hpp>
 #include <glm/gtc/random.hpp>
@@ -26,13 +25,14 @@ private:
     vector<float> angles;
     Camera* camera;
     mat4 model, projection, view;
+    mat4 lightSpaceMatrix;
     
     // 新增：定时生成敌人的系统
     float spawnTimer;       // 生成计时器
     float spawnInterval;    // 生成间隔（秒）
     GLuint maxEnemyLimit;   // 场上敌人数量上限
 public:
-    Enemy(vec2 windowSize, Camera* camera) {
+    Enemy(vec2 windowSize, Camera* camera, mat4 lightSpaceMat) : lightSpaceMatrix(lightSpaceMat){
         this->windowSize = windowSize;
         this->camera = camera;
         basicPos = vec3(0.0, 0.0, 0.0);
@@ -80,31 +80,65 @@ public:
         UpdateEnemySpawning(deltaTime);
     }
 
-    void Render(Shader* shader, GLuint depthMap = -1) {
+    void Render(Shader* shaderToUse, GLuint depthMapID = 0) { // 参数名和类型与Place类中类似
+        if (!enemy) return; // 检查模型是否已加载
+
+        const auto& enemySubMeshes = enemy->GetSubMeshes();
+        if (enemySubMeshes.empty()) return; // 如果模型没有子网格，则不渲染
+
+        const auto& firstSubMesh = enemySubMeshes[0]; // 假设敌人模型是单个子网格，或只渲染第一个
+
         for (size_t i = 0; i < position.size(); i++) {
-            model = mat4(1.0);
-            model = translate(model, position[i]);
-            model = rotate(model, angles[i], vec3(0, 1, 0));
-            model = scale(model, vec3(2));
-            if (shader == NULL) {
-                shader = enemyShader;
-                shader->Bind();
-                shader->SetMat4("projection", projection);
-                shader->SetMat4("view", view);
+            model = glm::mat4(1.0); // 明确 glm::
+            model = glm::translate(model, position[i]); // 明确 glm::
+            model = glm::rotate(model, angles[i], glm::vec3(0, 1, 0)); // 明确 glm::
+            model = glm::scale(model, glm::vec3(2)); // 明确 glm::
+
+            Shader* currentShader = shaderToUse;
+            if (currentShader == NULL) {
+                currentShader = enemyShader;
+                currentShader->Bind();
+                currentShader->SetMat4("projection", projection);
+                currentShader->SetMat4("view", view);
+                // 如果 enemyShader 需要其他 uniforms (如 viewPos, lightPos)，也应在此处设置
+                currentShader->SetVec3("viewPos", camera->GetPosition());
+                // lightPos 等已在 LoadShader 中为 enemyShader 设置过，如果是静态的就不用每帧传
             }
             else {
-                shader->Bind();
+                currentShader->Bind();
             }
-            shader->SetMat4("model", model);
+
+            currentShader->SetMat4("model", model);
+
+            // 纹理和深度图绑定
             glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, diffuseMap->GetId());
-            glActiveTexture(GL_TEXTURE1);
-            glBindVertexArray(enemy->GetVAO());
-            glDrawElements(GL_TRIANGLES, static_cast<GLuint>(enemy->GetIndices().size()), GL_UNSIGNED_INT, 0);
-            shader->Unbind();
-            glBindVertexArray(0);
-            model = mat4(1.0);
+            glBindTexture(GL_TEXTURE_2D, diffuseMap->GetId()); // 敌人自己的漫反射贴图
+
+            if (currentShader == enemyShader && depthMapID != 0) { // 如果使用 enemyShader 且有深度图
+                glActiveTexture(GL_TEXTURE1); // 假设 enemyShader 的 shadowMap 在纹理单元1
+                glBindTexture(GL_TEXTURE_2D, depthMapID);
+                currentShader->SetInt("shadowMap_tex", 1); // 假设你的 enemyShader 中阴影贴图 uniform 名为 material.shadowMap
+                // 或者根据实际 uniform 名进行设置，如 "shadowMap"
+                // 你的 LoadShader 中设置的是 "material.diffuse" 和 "material.specular"
+                // 你需要为 enemyShader 添加 shadowMap uniform
+            }
+
+
+            // 修改开始: 使用子网格数据进行渲染
+            glBindVertexArray(firstSubMesh.VAO);
+            glDrawElements(GL_TRIANGLES, firstSubMesh.indexCount, GL_UNSIGNED_INT, 0);
+            // 修改结束
+
+            // 不要在循环内部解绑 VAO 和 Shader，除非每个迭代都用不同的
         }
+
+        // 在所有敌人渲染完毕后解绑
+        if (shaderToUse == NULL && enemyShader) {
+            enemyShader->Unbind();
+        } else if (shaderToUse != NULL) {
+            // shaderToUse->Unbind(); // 通常由调用RenderDepth的地方统一处理其shader解绑
+        }
+        glBindVertexArray(0); // 最后解绑VAO
     }
 
     GLuint GetKillCount() {
@@ -147,6 +181,8 @@ private:
         enemyShader->SetVec3("light.diffuse", vec3(0.65));
         enemyShader->SetVec3("light.specular", vec3(1.0));
         enemyShader->SetVec3("viewPos", camera->GetPosition());
+        enemyShader->SetInt("shadowMap_tex", 1); // 告诉着色器 shadowMap_tex 在单元1
+        enemyShader->SetMat4("lightSpaceMatrix", this->lightSpaceMatrix); // <<< 新增：传递 lightSpaceMatrix
 
         enemyShader->Unbind();
     }

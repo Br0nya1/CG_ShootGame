@@ -11,7 +11,7 @@ const float YAW = -90.0f;			// 初始偏航角
 const float PITCH = 0.0f;			// 初始俯仰角
 const float SPEED = 30.0f;			// 摄像头移动速度
 const float HEIGHT = 10.0f;			// 摄像头高度
-const float SENSITIVITY = 0.05f;     // 视角移动速度
+const float SENSITIVITY = 0.1f;     // 视角移动速度
 const float ZOOM = 45.0f;			// 视角范围
 const float JUMPTIME = 0.1f;		// 跳跃持续时间
 const float GRAVITY = 9.8f;			// 重力加速度
@@ -156,14 +156,14 @@ private:
 	}
 	// 碰撞检查
 	void CheckCollision() {
-		if (position.x > 90.0f)
-			position.x = 90.0f;
-		if (position.x < -90.0f)
+		if (position.x > 180.0f)
+			position.x = 180.0f;
+		if (position.x < -180.0f)
 			position.x = -90.0f;
-		if (position.z > 75.0f)
-			position.z = 75.0f;
-		if (position.z < -35.0f)
-			position.z = -35.0f;
+		if (position.z > 180.0f)
+			position.z = 180.0f;
+		if (position.z < -180.0f)
+			position.z = -180.0f;
 	}
 	// 更新摄像头的相关向量
 	void UpdateCamera() {
