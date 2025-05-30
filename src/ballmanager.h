@@ -12,18 +12,18 @@ using namespace std;
 #include "shader.h"
 #include "camera.h"
 
-// 子弹结构体
+// Bullet structure
 struct Bullet {
-	vec3 position;		// 子弹位置
-	vec3 direction;		// 子弹飞行方向
-	float speed;		// 子弹速度
-	float lifetime;		// 子弹生存时间
+	vec3 position;		// Bullet position
+	vec3 direction;		// Bullet flight direction
+	float speed;		// Bullet speed
+	float lifetime;		// Bullet lifetime
 	
 	Bullet(vec3 pos, vec3 dir, float spd = 0.3f) 
 		: position(pos), direction(normalize(dir)), speed(spd), lifetime(15.0f) {}
 };
 
-// 敌人射击器结构体（每个敌人独立的射击计时器）
+// Enemy shooter structure (independent firing timer for each enemy)
 struct EnemyShooter {
 	vec3 enemyPosition;
 	float fireTimer;
@@ -39,17 +39,17 @@ private:
 
 	Model* ball;
 	Shader* ballShader;
-	GLuint score;						// 得分
-	GLuint gameModel;					// 游戏模式
-	vec3 lightPos;						// 光源位置
-	mat4 lightSpaceMatrix;				// 阴影贴图转换为以光源为中心的坐标
+	GLuint score;						// Score
+	GLuint gameModel;					// Game mode
+	vec3 lightPos;						// Light position
+	mat4 lightSpaceMatrix;				// Shadow map transformation matrix
 
-	// 敌人子弹系统
-	vector<Bullet> bullets;				// 所有子弹
-	vector<EnemyShooter> enemyShooters;	// 每个敌人的射击器
+	// Enemy bullet system
+	vector<Bullet> bullets;				// All bullets
+	vector<EnemyShooter> enemyShooters;	// Enemy shooters
 
 	Camera* camera;
-	// 模型变换矩阵
+	// Model transformation matrices
 	mat4 model;
 	mat4 projection;
 	mat4 view;
@@ -66,36 +66,36 @@ public:
 		LoadModel();
 	}
 	
-	// 更新敌人射击器位置
+	// Update enemy shooter positions
 	void UpdateEnemyPositions(const vector<vec3>& enemyPositions) {
-		// 如果敌人数量发生变化，才重新创建射击器
+		// Only recreate shooters if enemy count changes
 		if (enemyShooters.size() != enemyPositions.size()) {
 			enemyShooters.clear();
 			
-			// 为每个敌人创建射击器
+			// Create shooter for each enemy
 			for (const auto& pos : enemyPositions) {
-				// 每个敌人有稍微不同的射击频率，增加随机性
-				float randomFireRate = 1.5f + (rand() % 200) / 100.0f; // 1.5-3.5秒
+				// Each enemy has slightly different firing rate for randomness
+				float randomFireRate = 1.5f + (rand() % 200) / 100.0f; // 1.5-3.5 seconds
 				enemyShooters.push_back(EnemyShooter(pos, randomFireRate));
 			}
 		} else {
-			// 只更新现有射击器的位置
+			// Only update existing shooter positions
 			for (size_t i = 0; i < enemyPositions.size() && i < enemyShooters.size(); i++) {
 				enemyShooters[i].enemyPosition = enemyPositions[i];
 			}
 		}
 	}
 	
-	// 添加单个子弹
+	// Add single bullet
 	void AddBullet(vec3 enemyPos, vec3 playerPos) {
 		vec3 direction = playerPos - enemyPos;
-		// 稍微提高子弹起始位置，避免与地面碰撞
+		// Slightly raise bullet start position to avoid ground collision
 		vec3 bulletStartPos = enemyPos + vec3(0.0f, 2.0f, 0.0f);
 		bullets.push_back(Bullet(bulletStartPos, direction));
 	}
 	
-	// 检查子弹是否击中玩家
-	bool CheckBulletHitPlayer(float hitRadius = 5.0f) {
+	// Check if bullet hits player
+	bool CheckBulletHitPlayer(float hitRadius = 5.0f) {  // Increased collision radius from 2.0f to 5.0f
 		vec3 playerPos = camera->GetPosition();
 		
 		for (size_t i = 0; i < bullets.size(); i++) {
@@ -103,35 +103,35 @@ public:
 			if (distance <= hitRadius) {
 				cout << "Player hit! Distance: " << distance << ", Radius: " << hitRadius << endl;
 				bullets.erase(bullets.begin() + i);
-				return true;  // 玩家被击中
+				return true;  // Player hit
 			}
 		}
 		return false;
 	}
 
-	// 设置游戏模式
+	// Set game mode
 	void SetGameModel(GLuint num) {
 		gameModel = num;
 	}
 	
-	// 更新子弹和射击逻辑
+	// Update bullets and shooting logic
 	void Update(vec3 pos, vec3 dir, bool isShoot, float deltaTime) {
 		this->view = camera->GetViewMatrix();
 		this->projection = perspective(radians(camera->GetZoom()), windowSize.x / windowSize.y, 0.1f, 500.0f);
 
-		// 更新敌人射击计时器并发射子弹
+		// Update enemy shooting timers and fire bullets
 		UpdateEnemyShooting(deltaTime);
 		
-		// 更新子弹位置
+		// Update bullet positions
 		UpdateBullets(deltaTime);
 
-		// 玩家射击检测
+		// Player shooting detection
 		if (isShoot) {
 			CheckPlayerShooting(pos, dir);
 		}
 	}
 	
-	// 更新敌人射击逻辑
+	// Update enemy shooting logic
 	void UpdateEnemyShooting(float deltaTime) {
 		vec3 playerPos = camera->GetPosition();
 		
@@ -148,7 +148,7 @@ public:
 		}
 	}
 	
-	// 更新子弹位置
+	// Update bullet positions
 	void UpdateBullets(float deltaTime) {
 		for (size_t i = 0; i < bullets.size(); i++) {
 			// 移动子弹
@@ -164,7 +164,7 @@ public:
 		}
 	}
 	
-	// 检查玩家射击是否击中子弹
+	// Check player shooting
 	void CheckPlayerShooting(vec3 pos, vec3 dir) {
 		for (size_t i = 0; i < bullets.size(); i++) {
 			// 计算射线与子弹的距离
@@ -179,10 +179,10 @@ public:
 		}
 	}
 
-	// 判断游戏是否结束（现在基于是否有太多子弹或玩家被击中）
+	// Check if game is over (now based on whether there are too many bullets or player is hit)
 	bool IsOver() {
-		// 可以根据需要添加游戏结束条件
-		// 比如子弹数量过多，或在World类中处理玩家生命值
+		// Can add game over conditions based on need
+		// For example, if too many bullets or player is hit in World class
 		return false;
 	}
 
@@ -190,35 +190,35 @@ public:
 		return score;
 	}
 	
-	// 获取当前子弹数量（用于调试或UI显示）
+	// Get current bullet count (for debugging or UI display)
 	size_t GetBulletCount() const {
 		return bullets.size();
 	}
 	
-	// 渲染所有当前激活的子弹
+	// Render all currently active bullets
 	void Render(Shader* shaderToUse, GLuint depthMapID = 0) { 
-		if (!ball || !camera) return; // 增加 camera 检查
+		if (!ball || !camera) return; // Add camera check
 
-		const auto& ballSubMeshes = ball->GetSubMeshes(); // 获取子弹模型的子网格信息
+		const auto& ballSubMeshes = ball->GetSubMeshes(); // Get bullet model sub-mesh information
 		if (ballSubMeshes.empty()) return; 
 
-		const auto& firstBallSubMesh = ballSubMeshes[0]; // 假设子弹模型只有一个子网格
+		const auto& firstBallSubMesh = ballSubMeshes[0]; // Assume bullet model has only one sub-mesh
 
-		// 遍历的是 this->bullets 向量，而不是 this->position
-		for (size_t i = 0; i < bullets.size(); ++i) { // 使用 size_t
+		// Loop through this->bullets vector, not this->position
+		for (size_t i = 0; i < bullets.size(); ++i) { // Use size_t
 			model = glm::mat4(1.0f);
-			model = glm::translate(model, bullets[i].position); // 使用 bullets[i].position
-			// model = glm::scale(model, glm::vec3(5.0f)); // 子弹大小，可以调整，原先是vec3(5)
-			model = glm::scale(model, glm::vec3(0.5f)); // 让子弹小一点，比如0.5的尺寸
+			model = glm::translate(model, bullets[i].position); // Use bullets[i].position
+			// model = glm::scale(model, glm::vec3(5.0f)); // Bullet size, can be adjusted, originally vec3(5)
+			model = glm::scale(model, glm::vec3(0.5f)); // Make bullet smaller, e.g., 0.5 times size
 
 			Shader* currentShader = shaderToUse; 
 			if (currentShader == NULL) {
 				currentShader = ballShader; 
 				currentShader->Bind();
-				currentShader->SetMat4("projection", projection); // projection 和 view 应在循环外更新一次
+				currentShader->SetMat4("projection", projection); // projection and view should be updated once outside the loop
 				currentShader->SetMat4("view", view);
-				currentShader->SetVec3("viewPos", camera->GetPosition()); // 实时更新 viewPos
-				// lightPos 和 lightSpaceMatrix 是静态的，已在LoadModel中设置
+				currentShader->SetVec3("viewPos", camera->GetPosition()); // Real-time update viewPos
+				// lightPos and lightSpaceMatrix are static, set in LoadModel
 			}
 			else {
 				currentShader->Bind(); 
@@ -226,30 +226,30 @@ public:
 
 			currentShader->SetMat4("model", model);
 
-			// 如果 ballShader 也需要进行阴影投射（即写入深度图时，它本身也需要被渲染）
-			// 或者 ballShader 需要接收阴影（即在主渲染通道，它需要采样 shadowMap）
+			// If ballShader needs to cast shadows (i.e., write to depth map, it itself needs to be rendered)
+			// Or ballShader needs to receive shadows (i.e., in main rendering pass, it needs to sample shadowMap)
 			if (currentShader == ballShader && depthMapID != 0) {
-				glActiveTexture(GL_TEXTURE0); // ballShader 的 "shadowMap" uniform 设置为单元0
+				glActiveTexture(GL_TEXTURE0); // ballShader's "shadowMap" uniform set to unit0
 				glBindTexture(GL_TEXTURE_2D, depthMapID);
-				// ballShader->SetInt("shadowMap", 0); // 已在LoadModel中设置，此处无需重复
+				// ballShader->SetInt("shadowMap", 0); // Already set in LoadModel, no need to repeat
 			}
-			// 注意：ballShader 使用的是 "color" uniform，而不是漫反射纹理。
-			// 如果它也需要一个漫反射纹理，你需要像其他模型一样处理。
+			// Note: ballShader uses "color" uniform, not diffuse texture.
+			// If it needs a diffuse texture, you need to handle it like other models.
 
-			glBindVertexArray(firstBallSubMesh.VAO); // 使用子网格的 VAO
-			glDrawElements(GL_TRIANGLES, firstBallSubMesh.indexCount, GL_UNSIGNED_INT, 0); // 使用子网格的索引数量
+			glBindVertexArray(firstBallSubMesh.VAO); // Use sub-mesh's VAO
+			glDrawElements(GL_TRIANGLES, firstBallSubMesh.indexCount, GL_UNSIGNED_INT, 0); // Use sub-mesh's index count
 		}
 
-		// 在循环结束后解绑
-		if (shaderToUse == NULL && ballShader) { // 如果用的是自己的ballShader
+		// Unbind after loop
+		if (shaderToUse == NULL && ballShader) { // If using your own ballShader
 			ballShader->Unbind();
 		}
-		// 如果是外部传入的shader (shaderToUse != NULL)，通常由调用者（如World::RenderDepth）负责解绑其shader
-		// 或者按照约定，Render函数总是解绑它绑定的shader
+		// If external shader is passed in (shaderToUse != NULL), usually caller (e.g., World::RenderDepth) is responsible for unbinding its shader
+		// Or according to convention, Render function always unbinds it bound shader
 		// else if (shaderToUse != NULL) {
-		//     shaderToUse->Unbind(); // 可选的解绑
+		//     shaderToUse->Unbind(); // Optional unbind
 		// }
-		glBindVertexArray(0); // 最后解绑VAO
+		glBindVertexArray(0); // Finally unbind VAO
 	}
 
 private:
@@ -257,7 +257,7 @@ private:
 		ball = new Model("res/model/dot.obj");
 		ballShader = new Shader("res/shader/ball.vert", "res/shader/ball.frag");
 		ballShader->Bind();
-		ballShader->SetVec3("color", vec3(1.0, 0.2, 0.2));  // 红色子弹
+		ballShader->SetVec3("color", vec3(1.0, 0.2, 0.2));  // Red bullets
 		ballShader->SetInt("shadowMap", 0);
 		ballShader->SetVec3("lightPos", lightPos);
 		ballShader->SetVec3("viewPos", camera->GetPosition());

@@ -18,8 +18,8 @@ private:
     Model* enemy;
     Shader* enemyShader;
     Texture* diffuseMap;
-    GLuint maxNumber; // 当前场上的敌人数量
-    GLuint killCount; // 已击杀敌人数
+    GLuint maxNumber; // Current number of enemies on field
+    GLuint killCount; // Number of enemies killed
     vec3 basicPos;
     vector<vec3> position;
     vector<float> angles;
@@ -27,10 +27,10 @@ private:
     mat4 model, projection, view;
     mat4 lightSpaceMatrix;
     
-    // 新增：定时生成敌人的系统
-    float spawnTimer;       // 生成计时器
-    float spawnInterval;    // 生成间隔（秒）
-    GLuint maxEnemyLimit;   // 场上敌人数量上限
+    // Added: Timed enemy spawning system
+    float spawnTimer;       // Spawn timer
+    float spawnInterval;    // Spawn interval (seconds)
+    GLuint maxEnemyLimit;   // Maximum enemy count on field
 public:
     Enemy(vec2 windowSize, Camera* camera, mat4 lightSpaceMat) : lightSpaceMatrix(lightSpaceMat){
         this->windowSize = windowSize;
@@ -39,10 +39,10 @@ public:
         maxNumber = 6;
         killCount = 0;
         
-        // 初始化定时生成系统
+        // Initialize timed spawning system
         spawnTimer = 0.0f;
-        spawnInterval = 2.0f;   // 每2秒生成一个敌人
-        maxEnemyLimit = 20;     // 场上最多20个敌人
+        spawnInterval = 2.0f;   // Spawn one enemy every 2 seconds
+        maxEnemyLimit = 20;     // Maximum 20 enemies on field
         
         AddEnemy(maxNumber);
         LoadModel();
@@ -54,29 +54,29 @@ public:
         this->view = camera->GetViewMatrix();
         this->projection = perspective(radians(camera->GetZoom()), windowSize.x / windowSize.y, 0.1f, 500.0f);
 
-        // 更新朝向
+        // Update orientation
         for (size_t i = 0; i < position.size(); ++i) {
             vec3 toPlayer = normalize(camera->GetPosition() - position[i]);
             angles[i] = atan2(toPlayer.x, toPlayer.z);
         }
 
-        // 处理玩家射击
+        // Handle player shooting
         if (isShoot) {
             for (size_t i = 0; i < position.size(); ++i) {
                 vec3 des = (pos.z - position[i].z) / (-dir.z) * dir + pos;
                 float threshold=5;
                 if (abs(position[i].x - des.x)<=threshold&&abs(position[i].y - des.y) <=threshold) {
-                    // 命中，移除敌人
+                    // Hit, remove enemy
                     position.erase(position.begin() + i);
                     angles.erase(angles.begin() + i);
                     killCount++;
                     cout << "Enemy killed! Current kill count: " << killCount << endl;
-                    break; // 一次只击杀一个
+                    break; // Only kill one at a time
                 }
             }
         }
         
-        // 定时生成新敌人
+        // Timed spawning of new enemies
         UpdateEnemySpawning(deltaTime);
     }
 
@@ -145,17 +145,17 @@ public:
         return killCount;
     }
     
-    // 获取当前敌人数量
+    // Get current enemy count
     size_t GetEnemyCount() const {
         return position.size();
     }
     
-    // 获取敌人数量上限
+    // Get maximum enemy limit
     GLuint GetMaxEnemyLimit() const {
         return maxEnemyLimit;
     }
     
-    // 新增：获取所有敌人位置，供子弹系统使用
+    // Added: Get all enemy positions for bullet system
     vector<vec3> GetEnemyPositions() const {
         return position;
     }

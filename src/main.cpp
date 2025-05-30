@@ -9,6 +9,12 @@ GLFWwindow* window;
 vec2 windowSize;
 
 int main() {
+    // Initialize GLFW
+    if (!glfwInit()) {
+        cout << "Could not initialize GLFW" << endl;
+        return;
+    }
+
     // ֡
     const double TARGET_FRAME = 0.016667;                   // 1/60룬ʵ60֡
     const double FRAME_ALPHA = 0.25;                        // ϵ
@@ -102,11 +108,11 @@ void OpenWindow() {
 }
 
 void PrepareOpenGL() {
-    // 启用深度测试和混合
+    // Enable depth testing and blending
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // 将背景色设置为深色
+    // Set background color to dark
     glClearColor(0.f, 0.f, 0.1f, 0.0f);
 }
