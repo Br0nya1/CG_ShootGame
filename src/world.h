@@ -7,6 +7,7 @@
 #include "camera.h"
 #include "ballmanager.h"
 #include "enemy.h"
+#include "healthpackmanager.h"
 
 class World {
 private:
@@ -18,6 +19,7 @@ private:
 	Camera* camera;				// Camera
 	BallManager* ball;			// Bullets
 	Enemy* enemy;
+	HealthPackManager* healthPacks;	// Health packs
 	// Shadow mapping
 	GLuint depthMap;
 	GLuint depthMapFBO;
@@ -26,6 +28,7 @@ private:
 	
 	// Added: Player health system
 	int playerHealth;
+	int maxPlayerHealth;			// Maximum player health
 	bool gameOver;
 public:
 	World(GLFWwindow* window, vec2 windowSize) {
@@ -33,7 +36,8 @@ public:
 		this->windowSize = windowSize;
 		
 		// Initialize player health system
-		playerHealth = 3;  // Player has 3 lives
+		playerHealth = 99;  // Player has 99 lives for debugging
+		maxPlayerHealth = 99;
 		gameOver = false;
 
 		simpleDepthShader = new Shader("res/shader/shadow.vert", "res/shader/shadow.frag");
@@ -48,6 +52,7 @@ public:
 		player = new Player(windowSize, camera);
 		ball = new BallManager(windowSize, camera);
 		enemy = new Enemy(windowSize, camera, this->lightSpaceMatrix);
+		healthPacks = new HealthPackManager(windowSize, camera);
 
 		glGenFramebuffers(1, &depthMapFBO);
 		glGenTextures(1, &depthMap);
@@ -64,6 +69,21 @@ public:
 		
 		camera->Update(deltaTime);
 		
+		// Update health packs
+		healthPacks->Update(deltaTime);
+		
+		// Check E key for health pack pickup
+		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
+			if (healthPacks->TryPickupHealthPack(camera->GetPosition())) {
+				if (playerHealth < maxPlayerHealth) {
+					playerHealth++;
+					cout << "Health restored! Current health: " << playerHealth << "/" << maxPlayerHealth << endl;
+				} else {
+					cout << "Health is already full!" << endl;
+				}
+			}
+		}
+		
 		// Get enemy positions and update enemy shooters in BallManager
 		vector<vec3> enemyPositions = enemy->GetEnemyPositions();
 		ball->UpdateEnemyPositions(enemyPositions);
@@ -71,7 +91,7 @@ public:
 		// Check if enemy bullets hit player
 		if (ball->CheckBulletHitPlayer()) {
 			playerHealth--;
-			cout << "Player hit! Remaining health: " << playerHealth << endl;
+			cout << "Player hit! Remaining health: " << playerHealth << "/" << maxPlayerHealth << endl;
 			
 			if (playerHealth <= 0) {
 				gameOver = true;
@@ -99,6 +119,7 @@ public:
 		place->SunRender();
 		ball->Render(NULL, depthMap);
 		enemy->Render(NULL, depthMap);
+		healthPacks->Render(NULL, depthMap);
 	}
 
 	GLuint GetScore() {
@@ -116,6 +137,16 @@ public:
 	int GetPlayerHealth() const {
 		return playerHealth;
 	}
+	
+	// Added: Get maximum player health
+	int GetMaxPlayerHealth() const {
+		return maxPlayerHealth;
+	}
+	
+	// Added: Get active health pack count
+	size_t GetActiveHealthPackCount() const {
+		return healthPacks->GetActiveHealthPackCount();
+	}
 private:
 	// Shadow rendering
 	void RenderDepth() {
@@ -131,6 +162,8 @@ private:
 		glClear(GL_DEPTH_BUFFER_BIT);
 		place->RoomRender(simpleDepthShader);
 		ball->Render(simpleDepthShader);
+		enemy->Render(simpleDepthShader);
+		healthPacks->Render(simpleDepthShader);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		glViewport(0, 0, windowSize.x, windowSize.y);

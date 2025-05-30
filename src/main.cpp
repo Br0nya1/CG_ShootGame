@@ -12,7 +12,7 @@ int main() {
     // Initialize GLFW
     if (!glfwInit()) {
         cout << "Could not initialize GLFW" << endl;
-        return;
+        return 0;
     }
 
     // ֡
@@ -66,7 +66,8 @@ int main() {
     }
     glfwTerminate();
     cout << "----------------------------Your Score: " << world.GetScore() << " ----------------------------" << endl;
-    cout << "----------------------------Remaining Health: " << world.GetPlayerHealth() << " ----------------------------" << endl;
+    cout << "----------------------------Remaining Health: " << world.GetPlayerHealth() << "/" << world.GetMaxPlayerHealth() << " ----------------------------" << endl;
+    cout << "----------------------------Health Packs on Field: " << world.GetActiveHealthPackCount() << " ----------------------------" << endl;
     return 0;
 }
 

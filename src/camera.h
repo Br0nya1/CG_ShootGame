@@ -6,45 +6,45 @@
 #include <glm/gtc/matrix_transform.hpp>
 using namespace glm;
 
-// ÉãÏñ»úÄ¬ÈÏ²ÎÊý
-const float YAW = -90.0f;			// ³õÊ¼Æ«º½½Ç
-const float PITCH = 0.0f;			// ³õÊ¼¸©Ñö½Ç
-const float SPEED = 30.0f;			// ÉãÏñÍ·ÒÆ¶¯ËÙ¶È
-const float HEIGHT = 10.0f;			// ÉãÏñÍ·¸ß¶È
-const float SENSITIVITY = 0.1f;     // ÊÓ½ÇÒÆ¶¯ËÙ¶È
-const float ZOOM = 45.0f;			// ÊÓ½Ç·¶Î§
-const float JUMPTIME = 0.1f;		// ÌøÔ¾³ÖÐøÊ±¼ä
-const float GRAVITY = 9.8f;			// ÖØÁ¦¼ÓËÙ¶È
-const float JUMPSTRENGTH = 60.0f;	// ÌøÔ¾¼ÓËÙ¶È
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½Ï²ï¿½ï¿½ï¿½
+const float YAW = -90.0f;			// ï¿½ï¿½Ê¼Æ«ï¿½ï¿½ï¿½ï¿½
+const float PITCH = 0.0f;			// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+const float SPEED = 30.0f;			// ï¿½ï¿½ï¿½ï¿½Í·ï¿½Æ¶ï¿½ï¿½Ù¶ï¿½
+const float HEIGHT = 10.0f;			// ï¿½ï¿½ï¿½ï¿½Í·ï¿½ß¶ï¿½
+const float SENSITIVITY = 0.1f;     // Mouse movement sensitivity (reduced from 0.1f)
+const float ZOOM = 45.0f;			// ï¿½Ó½Ç·ï¿½Î§
+const float JUMPTIME = 0.1f;		// ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+const float GRAVITY = 9.8f;			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+const float JUMPSTRENGTH = 60.0f;	// ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½Ù¶ï¿½
 
 class Camera {
 private:
 	GLFWwindow* window;
 
-	vec3 position;				// ÉãÏñÍ·Î»ÖÃ
-	vec3 front;					// Ö¸ÏòÉãÏñÍ·Ç°·½µÄµ¥Î»ÏòÁ¿
-	vec3 right;					// Ö¸ÏòÉãÏñÍ·ÓÒ·½µÄµ¥Î»ÏòÁ¿
-	vec3 up;					// Ö¸ÏòÉãÏñÍ·ÉÏ·½µÄµ¥Î»ÏòÁ¿
-	vec3 worldUp;				// Ö¸ÏòÊÀ½çµÄÉÏ·½µÄµ¥Î»ÏòÁ¿£¬²»»á¸Ä±ä
+	vec3 position;				// ï¿½ï¿½ï¿½ï¿½Í·Î»ï¿½ï¿½
+	vec3 front;					// Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·Ç°ï¿½ï¿½ï¿½Äµï¿½Î»ï¿½ï¿½ï¿½ï¿½
+	vec3 right;					// Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½Ò·ï¿½ï¿½Äµï¿½Î»ï¿½ï¿½ï¿½ï¿½
+	vec3 up;					// Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½Ï·ï¿½ï¿½Äµï¿½Î»ï¿½ï¿½ï¿½ï¿½
+	vec3 worldUp;				// Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½Äµï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½
 
-	// ÌøÔ¾
-	float jumpTimer;			// ÌøÔ¾³ÖÐøÊ±¼ä
-	float gravity;				// ÖØÁ¦¼ÓËÙ¶È
-	bool isJump;				// ÓÃÓÚÅÐ¶Ïµ±Ç°ÊÇ²»ÊÇ´¦ÓÚÌøÔ¾×´Ì¬
+	// ï¿½ï¿½Ô¾
+	float jumpTimer;			// ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+	float gravity;				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+	bool isJump;				// ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ïµï¿½Ç°ï¿½Ç²ï¿½ï¿½Ç´ï¿½ï¿½ï¿½ï¿½ï¿½Ô¾×´Ì¬
 
-	// Å·À­½Ç
-	float yaw;					// Æ«º½½Ç
-	float pitch;				// ¸©Ñö½Ç
+	// Å·ï¿½ï¿½ï¿½ï¿½
+	float yaw;					// Æ«ï¿½ï¿½ï¿½ï¿½
+	float pitch;				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	// ÉãÏñÍ·Ñ¡Ïî
-	float movementSpeed;		// ÉãÏñÍ·ÒÆ¶¯ËÙ¶È
-	float mouseSensitivity;		// ÊÓ½ÇÒÆ¶¯ËÙ¶È
-	float zoom;					// ÊÓ½ÇµÄ´óÐ¡£¬Ò»°ã45.0f±È½ÏÕæÊµ
+	// ï¿½ï¿½ï¿½ï¿½Í·Ñ¡ï¿½ï¿½
+	float movementSpeed;		// ï¿½ï¿½ï¿½ï¿½Í·ï¿½Æ¶ï¿½ï¿½Ù¶ï¿½
+	float mouseSensitivity;		// ï¿½Ó½ï¿½ï¿½Æ¶ï¿½ï¿½Ù¶ï¿½
+	float zoom;					// ï¿½Ó½ÇµÄ´ï¿½Ð¡ï¿½ï¿½Ò»ï¿½ï¿½45.0fï¿½È½ï¿½ï¿½ï¿½Êµ
 
-	// Êó±êÎ»ÖÃ
+	// ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 	double mouseX;
 	double mouseY;
-	bool firstMouse;			// Êó±êÊÇ·ñµÚÒ»´Î½øÈë´°¿Ú
+	bool firstMouse;			// ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ò»ï¿½Î½ï¿½ï¿½ë´°ï¿½ï¿½
 public:
 	Camera(GLFWwindow* window) {
 		this->window = window;
@@ -65,7 +65,7 @@ public:
 
 		UpdateCamera();
 	}	
-	// ¸üÐÂÉãÏñÍ·µÄÊý¾ÝºÍ¿ØÖÆ¼üÅÌ¡¢Êó±êÊäÈë
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ÝºÍ¿ï¿½ï¿½Æ¼ï¿½ï¿½Ì¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	void Update(float deltaTime) {
 		MouseMovement();
 		KeyboardInput(deltaTime);
@@ -95,7 +95,7 @@ public:
 		return zoom;
 	}
 private:
-	// Êó±êÊäÈë
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	void MouseMovement() {
 		double newMouseX, newMouseY;
 
@@ -113,16 +113,16 @@ private:
 		mouseX = newMouseX;
 		mouseY = newMouseY;
 
-		// ±£Ö¤¸©Ñö½ÇÔÚ-90¡ãºÍ90¡ãÖ®¼ä
+		// ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-90ï¿½ï¿½ï¿½90ï¿½ï¿½Ö®ï¿½ï¿½
 		if (pitch > 89.0f)
 			pitch = 89.0f;
 		if (pitch < -89.0f)
 			pitch = -89.0f;
 
-		// ¸üÐÂFront£¬Right£¬Up
+		// ï¿½ï¿½ï¿½ï¿½Frontï¿½ï¿½Rightï¿½ï¿½Up
 		UpdateCamera();
 	}
-	// ¼üÅÌÊäÈë
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	void KeyboardInput(float deltaTime) {
 		float velocity = movementSpeed * deltaTime;
 		vec3 forward = normalize(cross(worldUp, right));
@@ -154,7 +154,7 @@ private:
 
 		CheckCollision();
 	}
-	// Åö×²¼ì²é
+	// ï¿½ï¿½×²ï¿½ï¿½ï¿½
 	void CheckCollision() {
 		if (position.x > 180.0f)
 			position.x = 180.0f;
@@ -165,7 +165,7 @@ private:
 		if (position.z < -180.0f)
 			position.z = -180.0f;
 	}
-	// ¸üÐÂÉãÏñÍ·µÄÏà¹ØÏòÁ¿
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	void UpdateCamera() {
 		vec3 front;
 		front.x = cos(radians(yaw)) * cos(radians(pitch));
