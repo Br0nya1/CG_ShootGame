@@ -117,7 +117,7 @@ private:
 	}
 	// ��������
 	void LoadTexture() {
-		diffuseMap = new Texture("res/texture/gun-diffuse-map.jpg");
+		diffuseMap = new Texture("res/texture/diffuse3.png");
 		specularMap = new Texture("res/texture/gun-specular-map.jpg");
 	}
 	// ������ɫ��
@@ -136,7 +136,7 @@ private:
 
 		dotShader = new Shader("res/shader/ball.vert", "res/shader/ball.frag");
 		dotShader->Bind();
-		dotShader->SetVec3("color", vec3(1.0, 0.0, 0.0));
+		dotShader->SetVec3("color", vec3(0.0, 1.0, 0.0));
 		dotShader->Unbind();
 	}
 };
