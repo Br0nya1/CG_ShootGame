@@ -117,8 +117,8 @@ private:
 	}
 	// ��������
 	void LoadTexture() {
-		diffuseMap = new Texture("res/texture/diffuse3.png");
-		specularMap = new Texture("res/texture/gun-specular-map.jpg");
+		diffuseMap = new Texture("res/texture/diffuse.png");
+		specularMap = new Texture("res/texture/specular.jpg");
 	}
 	// ������ɫ��
 	void LoadShader() {
