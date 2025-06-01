@@ -1,6 +1,7 @@
 // world.h (移除了开门逻辑)
 #ifndef WORLD_H
 #define WORLD_H
+#include "textrenderer.h"
 #include <irrklang/irrKlang.h>
 using namespace irrklang;
 #include <GLFW/glfw3.h>
@@ -32,6 +33,8 @@ private:
     GLuint depthMap;
     GLuint depthMapFBO;
     Shader* simpleDepthShader;
+    Shader* textShader;
+    TextRenderer* textRenderer;
     glm::mat4 lightSpaceMatrix;
 
     int playerHealth;
@@ -43,10 +46,13 @@ public:
         this->window = window;
         this->windowSize = windowSize;
 
-        playerHealth = 99;
-        maxPlayerHealth = 99;
+        playerHealth = 10;
+        maxPlayerHealth = 10;
         gameOver = false;
 
+        textShader = new Shader("res/shader/text.vert", "res/shader/text.frag");
+        textRenderer = new TextRenderer("res/font/msyh.ttf",textShader->GetProgram());
+        //debug textRenderer->PrintLoadedCharacters();
         simpleDepthShader = new Shader("res/shader/shadow.vert", "res/shader/shadow.frag");
 
         glm::vec3 lightPos(0.0, 800.0, 300.0);
@@ -102,7 +108,7 @@ public:
 
         std::vector<glm::vec3> currentEnemyPositions = enemy->GetEnemyPositions();
         ball->UpdateEnemyPositions(currentEnemyPositions);
-        ball->Update(deltaTime); // BallManager 更新 (敌人射击、子弹飞行)
+        ball->Update(deltaTime,GetScore()); // BallManager 更新 (敌人射击、子弹飞行)
 
         bool playerIsShooting = (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS);
         enemy->Update(camera->GetPosition(), camera->GetFront(), playerIsShooting, deltaTime);
@@ -151,11 +157,15 @@ public:
         ball->Render(NULL, depthMap);
         healthPacks->Render(NULL, depthMap);
         player->Render();
+        std::wstring scoreStr = L"得分: " + std::to_wstring(GetScore());
+        std::wstring healthStr = L"血量: " + std::to_wstring(GetPlayerHealth()) + L"/" + std::to_wstring(GetMaxPlayerHealth());
+        textRenderer->RenderText(scoreStr, 25.0f, windowSize.y - 50.0f, 1.0f, glm::vec3(1, 1, 0), windowSize.x, windowSize.y);
+        textRenderer->RenderText(healthStr, 25.0f, windowSize.y - 100.0f, 1.0f, glm::vec3(0, 1, 0), windowSize.x, windowSize.y);
+
     }
 
     GLuint GetScore() { return enemy->GetKillCount(); }
     bool IsOver() { return gameOver; }
-    void SetGameModel(GLuint num) { /* ... */ }
     int GetPlayerHealth() const { return playerHealth; }
     int GetMaxPlayerHealth() const { return maxPlayerHealth; }
     size_t GetActiveHealthPackCount() const { return healthPacks->GetActiveHealthPackCount(); }

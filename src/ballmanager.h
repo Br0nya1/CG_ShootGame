@@ -29,14 +29,15 @@ struct Bullet {
 		currentFrameIndex(0), frameTimer(0.0f), frameDuration(frameDur) {}
 };
 
+float firerate=2.0f;
 // Enemy shooter structure (independent firing timer for each enemy)
 struct EnemyShooter {
 	vec3 enemyPosition;
 	float fireTimer;
 	float fireRate;
 	
-	EnemyShooter(vec3 pos, float rate = 2.0f) 
-		: enemyPosition(pos), fireTimer(0.0f), fireRate(rate) {}
+	EnemyShooter(vec3 pos, float rate ) 
+		: enemyPosition(pos), fireTimer(0.0f), fireRate(firerate) {}
 };
 
 class BallManager {
@@ -126,9 +127,10 @@ public:
 	}
 	
 	// Update bullets and shooting logic
-	void Update(float deltaTime) {
+	void Update(float deltaTime,GLuint score) {
 		this->view = camera->GetViewMatrix();
 		this->projection = perspective(radians(camera->GetZoom()), windowSize.x / windowSize.y, 0.1f, 500.0f);
+		firerate =firerate*score/(score+1.0f);
 
 		// Update enemy shooting timers and fire bullets
 		UpdateEnemyShooting(deltaTime);

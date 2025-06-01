@@ -1,6 +1,6 @@
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include "world.h"
+#include <GLFW/glfw3.h>
 
 void OpenWindow();
 void PrepareOpenGL();
@@ -28,9 +28,7 @@ int main() {
     srand(time(0));
 
     GLuint gameModel = 1;
-    cout << "------------ѡϷģʽ1ģʽ2սģʽģʽǰżɣ------------\n";
-    cin >> gameModel;
-    cout << "\n";
+    cout << "Welcome to the Game!\n";
         
     OpenWindow();
     PrepareOpenGL();
@@ -40,7 +38,6 @@ int main() {
     currentFrame = glfwGetTime();
     lastFrame = currentFrame;
 
-    world.SetGameModel(gameModel);
     float gameTime = 0;
 
     while (!glfwWindowShouldClose(window) && !glfwGetKey(window, GLFW_KEY_ESCAPE)) {
