@@ -1,6 +1,7 @@
 #ifndef ENEMY_H 
 #define ENEMY_H
-
+#include <irrklang/irrKlang.h>
+using namespace irrklang;
 #include <glm/glm.hpp>
 #include <glm/gtc/random.hpp>
 using namespace glm;
@@ -12,6 +13,7 @@ using namespace std;
 #include "shader.h"
 #include "camera.h"
 #include "texture.h"
+ISoundEngine* man= createIrrKlangDevice();
 class Enemy {
 private:
     vec2 windowSize;
@@ -70,6 +72,7 @@ public:
                     position.erase(position.begin() + i);
                     angles.erase(angles.begin() + i);
                     killCount++;
+                    man->play2D("res/audio/man.mp3",GL_FALSE);
                     cout << "Enemy killed! Current kill count: " << killCount << endl;
                     break; // Only kill one at a time
                 }

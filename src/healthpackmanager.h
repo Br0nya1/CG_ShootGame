@@ -1,6 +1,8 @@
 #ifndef HEALTHPACKMANAGER_H
 #define HEALTHPACKMANAGER_H
 
+#include <irrklang/irrKlang.h>
+using namespace irrklang;
 #include <glm/glm.hpp>
 #include <glm/gtc/random.hpp>
 using namespace glm;
@@ -11,6 +13,7 @@ using namespace std;
 #include "model.h"
 #include "shader.h"
 #include "camera.h"
+ISoundEngine* xuebao= createIrrKlangDevice();
 
 // Health pack structure
 struct HealthPack {
@@ -105,6 +108,7 @@ public:
         // If found a health pack within range, pick it up
         if (closestIndex != -1) {
             healthPacks[closestIndex].isActive = false;
+            xuebao->play2D("res/audio/xuebao.mp3",GL_FALSE);
             cout << "Health pack picked up! Distance: " << closestDistance << endl;
             return true;
         }

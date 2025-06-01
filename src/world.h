@@ -1,7 +1,8 @@
 // world.h (移除了开门逻辑)
 #ifndef WORLD_H
 #define WORLD_H
-
+#include <irrklang/irrKlang.h>
+using namespace irrklang;
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <vector>
@@ -15,6 +16,7 @@
 #include "enemy.h"
 #include "healthpackmanager.h"
 
+ISoundEngine* gangguan= createIrrKlangDevice();
 class World {
 private:
     GLFWwindow* window;
@@ -126,6 +128,7 @@ public:
         // 碰撞：敌人子弹击中玩家
         if (ball->CheckBulletHitPlayer()) {
             playerHealth--;
+			gangguan->play2D("res/audio/gangguan.mp3", GL_FALSE);
             std::cout << "Player hit! Remaining health: " << playerHealth << "/" << maxPlayerHealth << std::endl;
             if (playerHealth <= 0) {
                 gameOver = true;
