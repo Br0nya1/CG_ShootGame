@@ -1,0 +1,89 @@
+﻿  main.cpp
+E:\Desktop\CG_ShootGame\src\main.cpp(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+E:\Desktop\CG_ShootGame\src\world.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\camera.h(110,32): warning C4244: “+=”: 从“double”转换到“float”，可能丢失数据
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\camera.h(111,34): warning C4244: “+=”: 从“double”转换到“float”，可能丢失数据
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\player.h(54,35): warning C4305: “参数”: 从“double”到“T”截断
+E:\Desktop\CG_ShootGame\src\player.h(54,35): warning C4305:         with
+E:\Desktop\CG_ShootGame\src\player.h(54,35): warning C4305:         [
+E:\Desktop\CG_ShootGame\src\player.h(54,35): warning C4305:             T=float
+E:\Desktop\CG_ShootGame\src\player.h(54,35): warning C4305:         ]
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\player.h(62,35): warning C4305: “参数”: 从“double”到“T”截断
+E:\Desktop\CG_ShootGame\src\player.h(62,35): warning C4305:         with
+E:\Desktop\CG_ShootGame\src\player.h(62,35): warning C4305:         [
+E:\Desktop\CG_ShootGame\src\player.h(62,35): warning C4305:             T=float
+E:\Desktop\CG_ShootGame\src\player.h(62,35): warning C4305:         ]
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\player.h(131,44): warning C4305: “参数”: 从“double”到“T”截断
+E:\Desktop\CG_ShootGame\src\player.h(131,44): warning C4305:         with
+E:\Desktop\CG_ShootGame\src\player.h(131,44): warning C4305:         [
+E:\Desktop\CG_ShootGame\src\player.h(131,44): warning C4305:             T=float
+E:\Desktop\CG_ShootGame\src\player.h(131,44): warning C4305:         ]
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\player.h(132,44): warning C4305: “参数”: 从“double”到“T”截断
+E:\Desktop\CG_ShootGame\src\player.h(132,44): warning C4305:         with
+E:\Desktop\CG_ShootGame\src\player.h(132,44): warning C4305:         [
+E:\Desktop\CG_ShootGame\src\player.h(132,44): warning C4305:             T=float
+E:\Desktop\CG_ShootGame\src\player.h(132,44): warning C4305:         ]
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\ballmanager.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\ballmanager.h(172,19): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\enemy.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\enemy.h(180,52): warning C4305: “参数”: 从“double”到“T”截断
+E:\Desktop\CG_ShootGame\src\enemy.h(180,52): warning C4305:         with
+E:\Desktop\CG_ShootGame\src\enemy.h(180,52): warning C4305:         [
+E:\Desktop\CG_ShootGame\src\enemy.h(180,52): warning C4305:             T=float
+E:\Desktop\CG_ShootGame\src\enemy.h(180,52): warning C4305:         ]
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\enemy.h(181,52): warning C4305: “参数”: 从“double”到“T”截断
+E:\Desktop\CG_ShootGame\src\enemy.h(181,52): warning C4305:         with
+E:\Desktop\CG_ShootGame\src\enemy.h(181,52): warning C4305:         [
+E:\Desktop\CG_ShootGame\src\enemy.h(181,52): warning C4305:             T=float
+E:\Desktop\CG_ShootGame\src\enemy.h(181,52): warning C4305:         ]
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\enemy.h(193,25): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\enemy.h(194,25): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\enemy.h(208,24): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\world.h(152,44): warning C4244: “参数”: 从“T”转换到“GLsizei”，可能丢失数据
+E:\Desktop\CG_ShootGame\src\world.h(152,44): warning C4244:         with
+E:\Desktop\CG_ShootGame\src\world.h(152,44): warning C4244:         [
+E:\Desktop\CG_ShootGame\src\world.h(152,44): warning C4244:             T=float
+E:\Desktop\CG_ShootGame\src\world.h(152,44): warning C4244:         ]
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\world.h(152,30): warning C4244: “参数”: 从“T”转换到“GLsizei”，可能丢失数据
+E:\Desktop\CG_ShootGame\src\world.h(152,30): warning C4244:         with
+E:\Desktop\CG_ShootGame\src\world.h(152,30): warning C4244:         [
+E:\Desktop\CG_ShootGame\src\world.h(152,30): warning C4244:             T=float
+E:\Desktop\CG_ShootGame\src\world.h(152,30): warning C4244:         ]
+  (编译源文件“src/main.cpp”)
+  
+E:\Desktop\CG_ShootGame\src\main.cpp(22,15): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+E:\Desktop\CG_ShootGame\src\main.cpp(53,26): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+LINK : warning LNK4098: 默认库“MSVCRT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
+  Shoot Game.vcxproj -> E:\Desktop\CG_ShootGame\x64\Debug\Shoot Game.exe

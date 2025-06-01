@@ -1175,6 +1175,12 @@
     <ClInclude Include="library\include\AL\efx-presets.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\enemy.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skybox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="library\include\glm\detail\func_common.inl">

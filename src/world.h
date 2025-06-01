@@ -7,6 +7,7 @@
 #include "camera.h"
 #include "ballmanager.h"
 #include "enemy.h"
+#include "skybox.h"
 
 class World {
 private:
@@ -18,6 +19,7 @@ private:
 	Camera* camera;				// 摄像头
 	BallManager* ball;			// 小球
 	Enemy* enemy;
+	Skybox* skybox;             //天空盒
 	// 阴影
 	GLuint depthMap;
 	GLuint depthMapFBO;
@@ -48,6 +50,7 @@ public:
 		player = new Player(windowSize, camera);
 		ball = new BallManager(windowSize, camera);
 		enemy = new Enemy(windowSize, camera, this->lightSpaceMatrix);
+		skybox = new Skybox();
 
 		glGenFramebuffers(1, &depthMapFBO);
 		glGenTextures(1, &depthMap);
@@ -99,6 +102,7 @@ public:
 		place->SunRender();
 		ball->Render(NULL, depthMap);
 		enemy->Render(NULL, depthMap);
+		skybox->Render(camera->GetViewMatrix(), glm::perspective(glm::radians(camera->GetZoom()), windowSize.x / windowSize.y, 0.1f, 500.0f));
 	}
 
 	GLuint GetScore() {
@@ -115,6 +119,18 @@ public:
 	// 新增：获取玩家生命值
 	int GetPlayerHealth() const {
 		return playerHealth;
+	}
+	
+	~World() {
+		delete place;
+		delete player;
+		delete camera;
+		delete ball;
+		delete enemy;
+		delete skybox; // 释放天空盒
+		delete simpleDepthShader;
+		glDeleteFramebuffers(1, &depthMapFBO);
+		glDeleteTextures(1, &depthMap);
 	}
 private:
 	// 阴影渲染

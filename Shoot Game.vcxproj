@@ -104,12 +104,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>F:\VisualStudio\Shoot Game\library\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Desktop\CG_ShootGame\library\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>F:\VisualStudio\Shoot Game\library\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>E:\Desktop\CG_ShootGame\library\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
@@ -519,10 +519,12 @@
     <ClInclude Include="library\include\stb_image\stb_image.h" />
     <ClInclude Include="src\ballmanager.h" />
     <ClInclude Include="src\camera.h" />
+    <ClInclude Include="src\enemy.h" />
     <ClInclude Include="src\model.h" />
     <ClInclude Include="src\place.h" />
     <ClInclude Include="src\player.h" />
     <ClInclude Include="src\shader.h" />
+    <ClInclude Include="src\skybox.h" />
     <ClInclude Include="src\texture.h" />
     <ClInclude Include="src\world.h" />
   </ItemGroup>
