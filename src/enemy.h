@@ -14,6 +14,7 @@ using namespace std;
 #include "camera.h"
 #include "texture.h"
 ISoundEngine* man= createIrrKlangDevice();
+int mancount = 0;
 class Enemy {
 private:
     vec2 windowSize;
@@ -72,7 +73,11 @@ public:
                     position.erase(position.begin() + i);
                     angles.erase(angles.begin() + i);
                     killCount++;
-                    man->play2D("res/audio/man.mp3",GL_FALSE);
+                    if(mancount%2==0)
+                    man->play2D("res/audio/man0.mp3", GL_FALSE);
+                    else
+                    man->play2D("res/audio/man1.mp3", GL_FALSE);
+                    mancount++;
                     cout << "Enemy killed! Current kill count: " << killCount << endl;
                     break; // Only kill one at a time
                 }
@@ -192,10 +197,12 @@ private:
     void AddEnemy(GLuint count) {
         for (GLuint i = 0; i < count; i++) {
             int tryCount = 0;
-            while (tryCount < 100) { // ֹѭ
-                float x = (rand() % 60) - 30;
-                float z = (rand() % 60) - 30;
-                float y = 11;
+            while (tryCount < 200) { // ֹѭ
+                float x = (rand() % 80) - 40;
+                float z = (rand() % 80) - 40;
+                if (abs(x) <= 20 || abs(z) <= 20)
+                    continue;
+                float y = 13.5;
                 vec3 pos = vec3(x,y,z);
                 if (CheckPosition(pos)) {
                     position.push_back(pos);
