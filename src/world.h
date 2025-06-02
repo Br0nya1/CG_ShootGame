@@ -222,16 +222,18 @@ public:
         textRenderer->RenderText(scoreStr, 25.0f, windowSize.y - 50.0f, 1.0f, glm::vec3(1, 1, 0), windowSize.x, windowSize.y);
         textRenderer->RenderText(healthStr, 25.0f, windowSize.y - 100.0f, 1.0f, glm::vec3(0, 1, 0), windowSize.x, windowSize.y);
         if (gameOver) {
-            if (gameOver) {
-                std::wstring gameover = L"游戏结束,按q键退出";
-                float scale = 2.5f;
-                // 简单估算文本宽度（每个字符大约占30像素*缩放）
-                float textWidth = gameover.length() * 30.0f * scale;
-                float x = (windowSize.x - textWidth) / 2.0f;
-                float y = windowSize.y / 2.0f;
-                textRenderer->RenderText(gameover, x, y, scale, glm::vec3(1, 0, 0), windowSize.x, windowSize.y);
-                return;
-            }
+            std::wstring line1 = L"游戏结束";
+            std::wstring line2 = L"按q键退出";
+            float scale = 2.5f;
+            // 简单估算文本宽度
+            float textWidth1 = line1.length() * 30.0f * scale;
+            float textWidth2 = line2.length() * 30.0f * scale;
+            float x1 = (windowSize.x - textWidth1) / 2.0f;
+            float x2 = (windowSize.x - textWidth2) / 2.0f;
+            float y = windowSize.y / 2.0f;
+            textRenderer->RenderText(line2, x1-60, y - 40.0f * scale, scale, glm::vec3(1, 1, 0), windowSize.x, windowSize.y); // 黄色
+            textRenderer->RenderText(line1, x2, y + 40.0f * scale, scale, glm::vec3(0.6f, 0, 1), windowSize.x, windowSize.y); // 紫色
+            return;
         }
     }
 
