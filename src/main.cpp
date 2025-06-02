@@ -15,9 +15,8 @@ int main() {
         return 0;
     }
 
-    // ?
-    const double TARGET_FRAME = 0.016667;                   // 1/60??60?
-    const double FRAME_ALPHA = 0.25;                        // ?
+    const double TARGET_FRAME = 0.016667;
+    const double FRAME_ALPHA = 0.25; 
     double currentFrame;
     double deltaTime;
     double lastFrame;
@@ -41,25 +40,26 @@ int main() {
     float gameTime = 0;
 
     while (!glfwWindowShouldClose(window) && !glfwGetKey(window, GLFW_KEY_ESCAPE)) {
-        // ?
         currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
         renderAccum += deltaTime;
 
-        if (renderAccum >= TARGET_FRAME) {
-            
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-            renderAccum -= TARGET_FRAME;
+        while (!glfwWindowShouldClose(window) && !glfwGetKey(window, GLFW_KEY_ESCAPE)) {
+            double currentFrame = glfwGetTime();
+            deltaTime = currentFrame - lastFrame;
+            lastFrame = currentFrame;
 
             world.Update(deltaTime);
             if (world.IsOver())
                 break;
+
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             world.Render();
+
+            glfwSwapBuffers(window);
+            glfwPollEvents();
         }
-        glfwSwapBuffers(window);
-        glfwPollEvents();
     }
     glfwTerminate();
     cout << "----------------------------Your Score: " << world.GetScore() << " ----------------------------" << endl;
