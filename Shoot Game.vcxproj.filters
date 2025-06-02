@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="源文件">
@@ -25,6 +25,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="library\include\glm\detail\glm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\textrenderer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1173,6 +1176,423 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="library\include\AL\efx-presets.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\textrenderer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ft2build.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\config\ftconfig.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\config\ftheader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\config\ftmodule.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\config\ftoption.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\config\ftstdlib.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\config\integer-types.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\config\mac-support.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\config\public-macros.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\freetype.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftadvanc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftbbox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftbdf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftbitmap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftbzip2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftcache.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftchapters.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftcid.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftcolor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftdriver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\fterrdef.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\fterrors.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftfntfmt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftgasp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftglyph.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftgxval.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftgzip.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftimage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftincrem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftlcdfil.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftlist.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftlogging.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftlzw.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftmac.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftmm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftmodapi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftmoderr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftotval.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftoutln.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftparams.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftpfr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftrender.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftsizes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftsnames.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftstroke.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftsynth.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftsystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\fttrigon.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\fttypes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ftwinfnt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\otsvg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\t1tables.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\ttnameid.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\tttables.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype\tttags.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_ESoundEngineOptions.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_ESoundOutputDrivers.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_EStreamModes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_IAudioRecorder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_IAudioStream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_IAudioStreamLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_IFileFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_IFileReader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_IRefCounted.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_irrKlangTypes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_ISound.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_ISoundDeviceList.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_ISoundEffectControl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_ISoundEngine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_ISoundMixedOutputReceiver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_ISoundSource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_ISoundStopEventReceiver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_IVirtualRefCounted.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_SAudioStreamFormat.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\ik_vec3d.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\irrklang\irrKlang.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\GL\eglew.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\GL\glew.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\GL\glxew.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\GL\wglew.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\config\ftconfig.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\config\ftheader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\config\ftmodule.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\config\ftoption.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\config\ftstdlib.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\config\integer-types.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\config\mac-support.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\config\public-macros.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\freetype.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftadvanc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftbbox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftbdf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftbitmap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftbzip2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftcache.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftchapters.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftcid.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftcolor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftdriver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\fterrdef.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\fterrors.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftfntfmt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftgasp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftglyph.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftgxval.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftgzip.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftimage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftincrem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftlcdfil.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftlist.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftlogging.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftlzw.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftmac.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftmm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftmodapi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftmoderr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftotval.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftoutln.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftparams.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftpfr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftrender.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftsizes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftsnames.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftstroke.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftsynth.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftsystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\fttrigon.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\fttypes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ftwinfnt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\otsvg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\t1tables.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\ttnameid.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\tttables.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\freetype\tttags.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\KHR\khrplatform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="library\include\ft2build.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\enemy.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\healthpackmanager.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\enemy.h">

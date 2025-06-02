@@ -1,125 +1,179 @@
+// world.h (�Ƴ��˿����߼�)
 #ifndef WORLD_H
 #define WORLD_H
-
+#include "textrenderer.h"
+#include <irrklang/irrKlang.h>
+using namespace irrklang;
 #include <GLFW/glfw3.h>
+#include <iostream>
+#include <vector>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "place.h"
 #include "player.h"
-#include "camera.h"
+#include "camera.h"        // ʹ�����ṩ�Ĳ����� Place* �� Camera.h
 #include "ballmanager.h"
 #include "enemy.h"
 #include "skybox.h"
+#include "healthpackmanager.h"
 
+ISoundEngine* gangguan= createIrrKlangDevice();
 class World {
 private:
-	GLFWwindow* window;
-	vec2 windowSize;
+    GLFWwindow* window;
+    glm::vec2 windowSize;
 
-	Place* place;				// 场地
-	Player* player;				// 玩家
-	Camera* camera;				// 摄像头
-	BallManager* ball;			// 小球
-	Enemy* enemy;
+    Place* place;
+    Player* player;
+    Camera* camera;
+    BallManager* ball;
+    Enemy* enemy;
 	Skybox* skybox;             //天空盒
-	// 阴影
-	GLuint depthMap;
-	GLuint depthMapFBO;
-	Shader* simpleDepthShader;
-	mat4 lightSpaceMatrix;
-	
-	// 新增：玩家生命值系统
-	int playerHealth;
-	bool gameOver;
+    HealthPackManager* healthPacks;
+
+    GLuint depthMap;
+    GLuint depthMapFBO;
+    Shader* simpleDepthShader;
+    Shader* textShader;
+    TextRenderer* textRenderer;
+    glm::mat4 lightSpaceMatrix;
+
+    int playerHealth;
+    int maxPlayerHealth;
+    bool gameOver;
+
 public:
-	World(GLFWwindow* window, vec2 windowSize) {
-		this->window = window;
-		this->windowSize = windowSize;
-		
-		// 初始化玩家生命值系统
-		playerHealth = 3;  // 玩家有3条命
-		gameOver = false;
+    World(GLFWwindow* window, glm::vec2 windowSize) {
+        this->window = window;
+        this->windowSize = windowSize;
 
-		simpleDepthShader = new Shader("res/shader/shadow.vert", "res/shader/shadow.frag");
+        playerHealth = 10;
+        maxPlayerHealth = 10;
+        gameOver = false;
 
-		vec3 lightPos(0.0, 400.0, 150.0);
-		mat4 lightProjection = ortho(-100.0f, 100.0f, -100.0f, 100.0f, 1.0f, 500.0f);
-		mat4 lightView = lookAt(lightPos, vec3(0.0f), vec3(0.0, 1.0, 0.0));
-		lightSpaceMatrix = lightProjection * lightView;
+        textShader = new Shader("res/shader/text.vert", "res/shader/text.frag");
+        textRenderer = new TextRenderer("res/font/msyh.ttf",textShader->GetProgram());
+        //debug textRenderer->PrintLoadedCharacters();
+        simpleDepthShader = new Shader("res/shader/shadow.vert", "res/shader/shadow.frag");
 
-		camera = new Camera(window);
-		place = new Place(windowSize, camera);
-		player = new Player(windowSize, camera);
-		ball = new BallManager(windowSize, camera);
-		enemy = new Enemy(windowSize, camera, this->lightSpaceMatrix);
+        glm::vec3 lightPos(0.0, 800.0, 300.0);
+        glm::mat4 lightProjection = glm::ortho(-250.0f, 250.0f, -250.0f, 250.0f, 1.0f, 1500.0f);
+        glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+        lightSpaceMatrix = lightProjection * lightView;
+
+        camera = new Camera(window); // Camera���캯��������ҪPlace*
+        place = new Place(windowSize, camera);
+        player = new Player(windowSize, camera);
+        ball = new BallManager(windowSize, camera);
+        enemy = new Enemy(windowSize, camera, this->lightSpaceMatrix);
+        healthPacks = new HealthPackManager(windowSize, camera);
 		skybox = new Skybox();
 
-		glGenFramebuffers(1, &depthMapFBO);
-		glGenTextures(1, &depthMap);
-		glBindTexture(GL_TEXTURE_2D, depthMap);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 2048, 2048, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	}
-	// 更新场景
-	void Update(float deltaTime) {
-		if (gameOver) return;  // 如果游戏结束，停止更新
-		
-		camera->Update(deltaTime);
-		
-		// 获取敌人位置并更新BallManager中的敌人射击器
-		vector<vec3> enemyPositions = enemy->GetEnemyPositions();
-		ball->UpdateEnemyPositions(enemyPositions);
-		
-		// 检查敌人子弹是否击中玩家
-		if (ball->CheckBulletHitPlayer()) {
-			playerHealth--;
-			cout << "Player hit! Remaining health: " << playerHealth << endl;
-			
-			if (playerHealth <= 0) {
-				gameOver = true;
-				cout << "Game Over! Player died!" << endl;
-			}
-		}
-		
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-			ball->Update(camera->GetPosition(), camera->GetFront(), true, deltaTime);
-			enemy->Update(camera->GetPosition(), camera->GetFront(), true, deltaTime);
-			player->Update(deltaTime, true);
-		}
-		else {
-			ball->Update(camera->GetPosition(), camera->GetFront(), false, deltaTime);
-			enemy->Update(camera->GetPosition(), camera->GetFront(), false, deltaTime);
-			player->Update(deltaTime, false);
-		}
-		place->Update();
-	}
-	// 阴影模式
-	void Render() {
-		RenderDepth();
-		player->Render();
-		place->RoomRender(NULL, depthMap);
-		place->SunRender();
-		ball->Render(NULL, depthMap);
-		enemy->Render(NULL, depthMap);
-		skybox->Render(camera->GetViewMatrix(), glm::perspective(glm::radians(camera->GetZoom()), windowSize.x / windowSize.y, 0.1f, 500.0f));
-	}
+        glGenFramebuffers(1, &depthMapFBO);
+        glGenTextures(1, &depthMap);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        const GLuint SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+        glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
-	GLuint GetScore() {
-		return ball->GetScore();
-	}
-	// 判断游戏是否结束
-	bool IsOver() {
-		return gameOver || ball->IsOver();
-	}
-	// 设置游戏模式
-	void SetGameModel(GLuint num) {
-		ball->SetGameModel(num);
-	}
-	// 新增：获取玩家生命值
-	int GetPlayerHealth() const {
-		return playerHealth;
-	}
+        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+        glDrawBuffer(GL_NONE);
+        glReadBuffer(GL_NONE);
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+            std::cout << "����::֡����:: ���֡���岻����!" << std::endl;
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+
+    ~World() {
+        delete place;
+        delete player;
+        delete camera;
+        delete ball;
+        delete enemy;
+        delete healthPacks;
+        delete simpleDepthShader;
+        glDeleteTextures(1, &depthMap);
+        glDeleteFramebuffers(1, &depthMapFBO);
+    }
+
+    void Update(float deltaTime) {
+        if (gameOver) return;
+
+        camera->Update(deltaTime);
+        place->Update();
+
+        std::vector<glm::vec3> currentEnemyPositions = enemy->GetEnemyPositions();
+        ball->UpdateEnemyPositions(currentEnemyPositions);
+        ball->Update(deltaTime,GetScore()); // BallManager ���� (����������ӵ�����)
+
+        bool playerIsShooting = (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS);
+        enemy->Update(camera->GetPosition(), camera->GetFront(), playerIsShooting, deltaTime);
+        player->Update(deltaTime, playerIsShooting);
+        healthPacks->Update(deltaTime);
+
+        // ������ʰȡҽ�ư� (E��)
+        static bool e_key_was_pressed = false;
+        bool e_key_currently_pressed = (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS);
+        if (e_key_currently_pressed && !e_key_was_pressed) {
+            if (healthPacks->TryPickupHealthPack(camera->GetPosition())) {
+                if (playerHealth < maxPlayerHealth) {
+                    playerHealth++;
+                    std::cout << "Health restored! Current health: " << playerHealth << "/" << maxPlayerHealth << std::endl;
+                } else {
+                    std::cout << "Health is already full!" << std::endl;
+                }
+            }
+            //  �Ƴ�������Ŀ����߼�: // if(place) place->TryOpenDoor(camera->GetPosition());
+        }
+        e_key_was_pressed = e_key_currently_pressed;
+
+        // ��ײ�������ӵ��������
+        if (ball->CheckBulletHitPlayer()) {
+            playerHealth--;
+			gangguan->play2D("res/audio/gangguan.mp3", GL_FALSE);
+            std::cout << "Player hit! Remaining health: " << playerHealth << "/" << maxPlayerHealth << std::endl;
+            if (playerHealth <= 0) {
+                gameOver = true;
+                std::cout << "Game Over! Player died!" << std::endl;
+            }
+        }
+
+    }
+
+    void Render() {
+        if (gameOver) {
+            glClearColor(0.5f, 0.0f, 0.0f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            return;
+        }
+        RenderDepth();
+        place->RoomRender(NULL, depthMap);
+        place->SunRender();
+        enemy->Render(NULL, depthMap);
+        ball->Render(NULL, depthMap);
+        healthPacks->Render(NULL, depthMap);
+		skybox->Render(camera->GetViewMatrix(), glm::perspective(glm::radians(camera->GetZoom()), windowSize.x / windowSize.y, 0.1f, 500.0f));
+        player->Render();
+        std::wstring scoreStr = L"�÷�: " + std::to_wstring(GetScore());
+        std::wstring healthStr = L"Ѫ��: " + std::to_wstring(GetPlayerHealth()) + L"/" + std::to_wstring(GetMaxPlayerHealth());
+        textRenderer->RenderText(scoreStr, 25.0f, windowSize.y - 50.0f, 1.0f, glm::vec3(1, 1, 0), windowSize.x, windowSize.y);
+        textRenderer->RenderText(healthStr, 25.0f, windowSize.y - 100.0f, 1.0f, glm::vec3(0, 1, 0), windowSize.x, windowSize.y);
+
+    }
+
+    GLuint GetScore() { return enemy->GetKillCount(); }
+    bool IsOver() { return gameOver; }
+    int GetPlayerHealth() const { return playerHealth; }
+    int GetMaxPlayerHealth() const { return maxPlayerHealth; }
+    size_t GetActiveHealthPackCount() const { return healthPacks->GetActiveHealthPackCount(); }
+
 	
 	~World() {
 		delete place;
@@ -133,25 +187,25 @@ public:
 		glDeleteTextures(1, &depthMap);
 	}
 private:
-	// 阴影渲染
-	void RenderDepth() {
-		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
-		glDrawBuffer(GL_NONE);
-		glReadBuffer(GL_NONE);
+    void RenderDepth() {
+        glEnable(GL_DEPTH_TEST);
+        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+        simpleDepthShader->Bind();
+        simpleDepthShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 
-		simpleDepthShader->Bind();
-		simpleDepthShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+        const GLuint SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
+        glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+        glClear(GL_DEPTH_BUFFER_BIT);
 
-		glViewport(0, 0, 1024, 1024);
-		glClear(GL_DEPTH_BUFFER_BIT);
-		place->RoomRender(simpleDepthShader);
-		ball->Render(simpleDepthShader);
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        place->RoomRender(simpleDepthShader, 0);
+        enemy->Render(simpleDepthShader, 0);
+        ball->Render(simpleDepthShader, 0);
+        // healthPacks->Render(simpleDepthShader, 0); // ��ѡ
 
-		glViewport(0, 0, windowSize.x, windowSize.y);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	}
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glViewport(0, 0, (GLsizei)windowSize.x, (GLsizei)windowSize.y);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
 };
 
-#endif
+#endif // WORLD_H

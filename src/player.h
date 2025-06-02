@@ -1,4 +1,4 @@
-﻿#ifndef PLAYER_H
+#ifndef PLAYER_H
 #define PLAYER_H
 
 #include <glad/glad.h>
@@ -9,22 +9,22 @@
 
 class Player {
 private:
-	vec2 windowSize;					// ���ڳߴ�
-	// ǹ���������
+	vec2 windowSize;					// Window size
+	// Gun
 	Model* gun;
-	vec3 gunPos;						// ǹ��λ������
+	vec3 gunPos;						// Gun position
 	Shader* gunShader;
-	mat4 gunModel;						// ǹģ��λ�ñ任����
-	Texture* diffuseMap;				// ��������ͼ
-	Texture* specularMap;				// ���淴����ͼ
-	float gunRecoil;					// ������
-	// ׼��
+	mat4 gunModel;						// Gun model transformation matrix
+	Texture* diffuseMap;				// Diffuse texture map
+	Texture* specularMap;				// Specular reflection map
+	float gunRecoil;					// Gun recoil
+	// Crosshair
 	Model* dot;							
 	Shader* dotShader;
-	mat4 dotModel;						// ׼��ģ��λ�ñ任����
-	// ����ͷ
+	mat4 dotModel;						// Crosshair model transformation matrix
+	// Camera
 	Camera* camera;
-	// �任����
+	// Transformation matrices
 	mat4 projection;
 	mat4 view;
 public:
@@ -39,7 +39,7 @@ public:
 		LoadTexture();
 		LoadShader();
 	}
-	// ���±任��������ͷλ�õ�����
+	// Update transformation matrices based on camera position and orientation
 	void Update(float deltaTime,  bool isShoot) {
 		if (isShoot)
 			gunRecoil = 10.0f;
@@ -63,26 +63,26 @@ public:
 		gunModel = translate(gunModel, vec3(-0.225, 0.0, -0.225));
 		gunModel = rotate(gunModel, radians(-170.0f), vec3(0.0, 1.0, 0.0));
 	}
-	// ��Ⱦ����
+	// Render player components
 	void Render() {
-		// --- ��Ⱦ׼�� (dot) ---
+		// --- Render crosshair (dot) ---
 		dotShader->Bind();
 		dotShader->SetMat4("projection", projection);
 		dotShader->SetMat4("view", view);
 		dotShader->SetMat4("model", dotModel);
 
-		// �޸Ŀ�ʼ: ʹ�� GetSubMeshes() ��Ⱦ dot ģ��
-		if (dot) { // ȷ�� dot ģ���Ѽ���
+		// Modified: Use GetSubMeshes() to render dot model
+		if (dot) { // Ensure dot model is loaded
 			const auto& dotSubMeshes = dot->GetSubMeshes();
 			if (!dotSubMeshes.empty()) {
-				const auto& firstSubMesh = dotSubMeshes[0]; // ���� dot �ǵ������������Ⱦ��һ��
+				const auto& firstSubMesh = dotSubMeshes[0]; // Render the first dot submesh
 				glBindVertexArray(firstSubMesh.VAO);
 				glDrawElements(GL_TRIANGLES, firstSubMesh.indexCount, GL_UNSIGNED_INT, 0);
 			}
 		}
-		// �޸Ľ���
+		// Modified end
 
-		// --- ��Ⱦǹ (gun) ---
+		// --- Render gun (gun) ---
 		gunShader->Bind();
 		gunShader->SetMat4("projection", projection);
 		gunShader->SetMat4("view", view);
@@ -93,34 +93,34 @@ public:
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, specularMap->GetId());
 
-		// �޸Ŀ�ʼ: ʹ�� GetSubMeshes() ��Ⱦ gun ģ��
-		if (gun) { // ȷ�� gun ģ���Ѽ���
+		// Modified: Use GetSubMeshes() to render gun model
+		if (gun) { // Ensure gun model is loaded
 			const auto& gunSubMeshes = gun->GetSubMeshes();
 			if (!gunSubMeshes.empty()) {
-				const auto& firstSubMesh = gunSubMeshes[0]; // ���� gun �ǵ������������Ⱦ��һ��
+				const auto& firstSubMesh = gunSubMeshes[0]; // Render the first gun submesh
 				glBindVertexArray(firstSubMesh.VAO);
 				glDrawElements(GL_TRIANGLES, firstSubMesh.indexCount, GL_UNSIGNED_INT, 0);
 			}
 		}
-		// �޸Ľ���
+		// Modified end
 
-		glBindVertexArray(0); // ���VAO��һ����ϰ�ߣ������л��Ʋ�����ִ��һ�μ���
-		gunShader->Unbind(); // ͨ�����������ɫ��
-		// dotShader ҲӦ����������󣬻���ȷ�� gunShader->Bind() �Ḳ����
-		// ���ǵ� dotShader �� gunShader �Ƿֿ�ʹ�õģ����Ǹ��Խ������л�ʱ���°󶨵ĸ�����OK�ġ�
+		glBindVertexArray(0); // Unbind VAO to prevent further rendering
+		gunShader->Unbind(); // Unbind shader to prevent further rendering
+		// dotShader should also be unbound, but it's not necessary to check if it's used by gunShader
+		// If dotShader and gunShader are not sharing, it's OK to leave dotShader unbound when rendering gun
 	}
 private:
-	// ����ǹģ��
+	// Load gun model
 	void LoadGun() {
 		gun = new Model("res/model/gun.obj");
 		dot = new Model("res/model/dot.obj");
 	}
-	// ��������
+	// Load textures
 	void LoadTexture() {
 		diffuseMap = new Texture("res/texture/diffuse.png");
 		specularMap = new Texture("res/texture/specular.jpg");
 	}
-	// ������ɫ��
+	// Load shaders
 	void LoadShader() {
 		gunShader = new Shader("res/shader/gun.vert", "res/shader/gun.frag");
 		gunShader->Bind();

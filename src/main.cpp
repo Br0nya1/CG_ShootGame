@@ -1,6 +1,6 @@
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include "world.h"
+#include <GLFW/glfw3.h>
 
 void OpenWindow();
 void PrepareOpenGL();
@@ -9,6 +9,12 @@ GLFWwindow* window;
 vec2 windowSize;
 
 int main() {
+    // Initialize GLFW
+    if (!glfwInit()) {
+        cout << "Could not initialize GLFW" << endl;
+        return 0;
+    }
+
     // ֡
     const double TARGET_FRAME = 0.016667;                   // 1/60룬ʵ60֡
     const double FRAME_ALPHA = 0.25;                        // ϵ
@@ -22,9 +28,7 @@ int main() {
     srand(time(0));
 
     GLuint gameModel = 1;
-    cout << "------------ѡϷģʽ1ģʽ2սģʽģʽǰżɣ------------\n";
-    cin >> gameModel;
-    cout << "\n";
+    cout << "Welcome to the Game!\n";
         
     OpenWindow();
     PrepareOpenGL();
@@ -34,7 +38,6 @@ int main() {
     currentFrame = glfwGetTime();
     lastFrame = currentFrame;
 
-    world.SetGameModel(gameModel);
     float gameTime = 0;
 
     while (!glfwWindowShouldClose(window) && !glfwGetKey(window, GLFW_KEY_ESCAPE)) {
@@ -60,7 +63,8 @@ int main() {
     }
     glfwTerminate();
     cout << "----------------------------Your Score: " << world.GetScore() << " ----------------------------" << endl;
-    cout << "----------------------------Remaining Health: " << world.GetPlayerHealth() << " ----------------------------" << endl;
+    cout << "----------------------------Remaining Health: " << world.GetPlayerHealth() << "/" << world.GetMaxPlayerHealth() << " ----------------------------" << endl;
+    cout << "----------------------------Health Packs on Field: " << world.GetActiveHealthPackCount() << " ----------------------------" << endl;
     return 0;
 }
 
@@ -102,11 +106,11 @@ void OpenWindow() {
 }
 
 void PrepareOpenGL() {
-    // 启用深度测试和混合
+    // Enable depth testing and blending
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // 将背景色设置为深色
+    // Set background color to dark
     glClearColor(0.f, 0.f, 0.1f, 0.0f);
 }
