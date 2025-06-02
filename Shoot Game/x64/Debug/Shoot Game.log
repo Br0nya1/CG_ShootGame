@@ -140,5 +140,4 @@ C:\Users\zhang\CG_ShootGame\src\world.h(235,108): warning C4244:         ]
   
 C:\Users\zhang\CG_ShootGame\src\main.cpp(28,15): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
 C:\Users\zhang\CG_ShootGame\src\main.cpp(54,26): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-LINK : warning LNK4098: 默认库“MSVCRT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
   Shoot Game.vcxproj -> C:\Users\zhang\CG_ShootGame\x64\Debug\Shoot Game.exe
