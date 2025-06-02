@@ -76,12 +76,12 @@ public:
 
         // Load daytime cubemap texture (5 faces + placeholder for bottom)
         std::vector<std::string> dayFaces = {
-            "res/texture/skybox/day_right.jpg",
-            "res/texture/skybox/day_left.jpg",
-            "res/texture/skybox/day_top.jpg",
-            "res/texture/skybox/day_front.jpg", // Use front as placeholder for bottom
-            "res/texture/skybox/day_front.jpg",
-            "res/texture/skybox/day_back.jpg"
+            "res/texture/skybox/desert/desert_right.jpg",
+            "res/texture/skybox/desert/desert_left.jpg",
+            "res/texture/skybox/desert/desert_top.jpg",
+            "res/texture/skybox/desert/desert_front.jpg", // Use front as placeholder for bottom
+            "res/texture/skybox/desert/desert_front.jpg",
+            "res/texture/skybox/desert/desert_back.jpg"
         };
         dayCubemapTexture = new Texture(dayFaces);
         if (!dayCubemapTexture->IsLoaded()) {
@@ -90,12 +90,12 @@ public:
 
         // Load dusk cubemap texture (5 faces + placeholder for bottom)
         std::vector<std::string> duskFaces = {
-            "res/texture/skybox/desert-evening/desert_evening_right.jpg",
-            "res/texture/skybox/desert-evening/desert_evening_left.jpg",
-            "res/texture/skybox/desert-evening/desert_evening_top.jpg",
-            "res/texture/skybox/desert-evening/desert_evening_front.jpg", // Use front as placeholder for bottom
-            "res/texture/skybox/desert-evening/desert_evening_front.jpg",
-            "res/texture/skybox/desert-evening/desert_evening_back.jpg"
+            "res/texture/skybox/desertsky/desertsky_right.jpg",
+            "res/texture/skybox/desertsky/desertsky_left.jpg",
+            "res/texture/skybox/desertsky/desertsky_top.jpg",
+            "res/texture/skybox/desertsky/desertsky_front.jpg", // Use front as placeholder for bottom
+            "res/texture/skybox/desertsky/desertsky_front.jpg",
+            "res/texture/skybox/desertsky/desertsky_back.jpg"
         };
         duskCubemapTexture = new Texture(duskFaces);
         if (!duskCubemapTexture->IsLoaded()) {

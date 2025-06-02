@@ -13,9 +13,8 @@ void main() {
     vec4 nightColor = texture(nightSkybox, TexCoords);
 
     // Define transition ranges
-    float dayRange = 0.33; // Day: 0.0 to 0.33
-    float duskRange = 0.66; // Dusk: 0.33 to 0.66
-    // Night: 0.66 to 1.0
+    float dayRange = 0.5; // Day: 0.0 to 0.5 (50%)
+    float duskRange = 0.75; // Dusk: 0.5 to 0.75 (25%)
 
     vec4 finalColor;
     if (dayNightCycle < dayRange) {
@@ -27,9 +26,14 @@ void main() {
         float t = (dayNightCycle - dayRange) / (duskRange - dayRange); // Normalize to [0, 1]
         finalColor = mix(duskColor, nightColor, t);
     } else {
-        // Night phase (no transition after 0.66)
+        // Night phase
         finalColor = nightColor;
     }
 
-    FragColor = finalColor;
+    // Optional: Mask bottom face to black (if not visible)
+    if (TexCoords.y < -0.9) {
+        FragColor = vec4(0.0, 0.0, 0.0, 1.0); // Black for bottom face
+    } else {
+        FragColor = finalColor;
+    }
 }

@@ -126,18 +126,29 @@ public:
 
         // Update day-night cycle
         gameTime += deltaTime;
-        dayNightCycle = 0.5f * (1.0f - cos(fmod(gameTime, 30.0f) * glm::pi<float>() / 15.0f));
-        float angle = dayNightCycle * 2.0f * glm::pi<float>(); // Convert to radians
+        float cycleTime = fmod(gameTime, 60.0f); // 60-second cycle
+        float t = 0.5f * (1.0f - cos(cycleTime * glm::pi<float>() / 30.0f)); // Smooth curve
+        if (cycleTime < 30.0f) { // Day: 0-30 seconds
+            dayNightCycle = (t * cycleTime / 30.0f) * 0.5f;
+        }
+        else if (cycleTime < 45.0f) { // Dusk: 30-45 seconds
+            dayNightCycle = 0.5f + (t * (cycleTime - 30.0f) / 15.0f) * 0.25f;
+        }
+        else { // Night: 45-60 seconds
+            dayNightCycle = 0.75f + (t * (cycleTime - 45.0f) / 15.0f) * 0.25f;
+        }
+
+        float angle = dayNightCycle * 2.0f * glm::pi<float>(); // Convert to radians for light direction
         lightDir = glm::normalize(glm::vec3(cos(angle), sin(angle), -1.0f)); // Simulate sun/moon movement
-        if (dayNightCycle < 0.33f) { // Day
+        if (dayNightCycle < 0.5f) { // Day (extended to 0-0.5)
             lightColor = glm::vec3(1.0f, 1.0f, 0.9f); // Warm white
             ambientStrength = 0.3f;
         }
-        else if (dayNightCycle < 0.66f) { // Dusk
+        else if (dayNightCycle < 0.75f) { // Dusk (0.5-0.75)
             lightColor = glm::vec3(0.8f, 0.5f, 0.3f); // Orange-red for dusk
             ambientStrength = 0.2f;
         }
-        else { // Night
+        else { // Night (0.75-1.0)
             lightColor = glm::vec3(0.2f, 0.2f, 0.5f); // Cool blue
             ambientStrength = 0.1f;
         }
