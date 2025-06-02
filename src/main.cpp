@@ -15,9 +15,9 @@ int main() {
         return 0;
     }
 
-    // ֡
-    const double TARGET_FRAME = 0.016667;                   // 1/60룬ʵ60֡
-    const double FRAME_ALPHA = 0.25;                        // ϵ
+    // ?
+    const double TARGET_FRAME = 0.016667;                   // 1/60??60?
+    const double FRAME_ALPHA = 0.25;                        // ?
     double currentFrame;
     double deltaTime;
     double lastFrame;
@@ -41,7 +41,7 @@ int main() {
     float gameTime = 0;
 
     while (!glfwWindowShouldClose(window) && !glfwGetKey(window, GLFW_KEY_ESCAPE)) {
-        // ֡
+        // ?
         currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
@@ -73,7 +73,7 @@ void OpenWindow() {
     int WIDTH = 1960;
     int HEIGHT = 1080;
 
-    // 初始化GLFW
+    // ��ʼ��GLFW
     if (!glfwInit()) {
         cout << "Could not initialize GLFW" << endl;
         return;

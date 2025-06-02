@@ -1,4 +1,4 @@
-#ifndef CAMERA_H
+﻿#ifndef CAMERA_H
 #define CAMERA_H
 
 #include <GLFW/glfw3.h>
@@ -6,45 +6,40 @@
 #include <glm/gtc/matrix_transform.hpp>
 using namespace glm;
 
-// �����Ĭ�ϲ���
-const float YAW = -90.0f;			// ��ʼƫ����
-const float PITCH = 0.0f;			// ��ʼ������
-const float SPEED = 30.0f;			// ����ͷ�ƶ��ٶ�
-const float HEIGHT = 10.0f;			// ����ͷ�߶�
+const float YAW = -90.0f;			
+const float PITCH = 0.0f;			
+const float SPEED = 30.0f;			
+const float HEIGHT = 10.0f;			
 const float SENSITIVITY = 0.1f;     // Mouse movement sensitivity (reduced from 0.1f)
-const float ZOOM = 45.0f;			// �ӽǷ�Χ
-const float JUMPTIME = 0.1f;		// ��Ծ����ʱ��
-const float GRAVITY = 9.8f;			// �������ٶ�
-const float JUMPSTRENGTH = 60.0f;	// ��Ծ���ٶ�
+const float ZOOM = 45.0f;			
+const float JUMPTIME = 0.1f;		
+const float GRAVITY = 9.8f;			
+const float JUMPSTRENGTH = 60.0f;	
 
 class Camera {
 private:
 	GLFWwindow* window;
 
-	vec3 position;				// ����ͷλ��
-	vec3 front;					// ָ������ͷǰ���ĵ�λ����
-	vec3 right;					// ָ������ͷ�ҷ��ĵ�λ����
-	vec3 up;					// ָ������ͷ�Ϸ��ĵ�λ����
-	vec3 worldUp;				// ָ��������Ϸ��ĵ�λ����������ı�
+	vec3 position;				
+	vec3 front;					
+	vec3 right;					
+	vec3 up;					
+	vec3 worldUp;				
 
-	// ��Ծ
-	float jumpTimer;			// ��Ծ����ʱ��
-	float gravity;				// �������ٶ�
-	bool isJump;				// �����жϵ�ǰ�ǲ��Ǵ�����Ծ״̬
+	float jumpTimer;			
+	float gravity;				
+	bool isJump;				
 
-	// ŷ����
-	float yaw;					// ƫ����
-	float pitch;				// ������
+	float yaw;					
+	float pitch;				
 
-	// ����ͷѡ��
-	float movementSpeed;		// ����ͷ�ƶ��ٶ�
-	float mouseSensitivity;		// �ӽ��ƶ��ٶ�
-	float zoom;					// �ӽǵĴ�С��һ��45.0f�Ƚ���ʵ
+	float movementSpeed;		
+	float mouseSensitivity;		
+	float zoom;					
 
-	// ���λ��
 	double mouseX;
 	double mouseY;
-	bool firstMouse;			// ����Ƿ��һ�ν��봰��
+	bool firstMouse;			
 public:
 	Camera(GLFWwindow* window) {
 		this->window = window;
@@ -65,7 +60,6 @@ public:
 
 		UpdateCamera();
 	}	
-	// ��������ͷ�����ݺͿ��Ƽ��̡��������
 	void Update(float deltaTime) {
 		MouseMovement();
 		KeyboardInput(deltaTime);
@@ -100,7 +94,6 @@ private:
 		double newMouseX, newMouseY;
 
 		glfwGetCursorPos(window, &newMouseX, &newMouseY);
-
 		if (firstMouse) {
 			mouseX = newMouseX;
 			mouseY = newMouseY;
@@ -113,7 +106,6 @@ private:
 		mouseX = newMouseX;
 		mouseY = newMouseY;
 
-		// ��֤��������-90���90��֮��
 		if (pitch > 89.0f)
 			pitch = 89.0f;
 		if (pitch < -89.0f)

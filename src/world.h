@@ -1,4 +1,4 @@
-// world.h (�Ƴ��˿����߼�)
+﻿// world.h (�Ƴ��˿����߼�)
 #ifndef WORLD_H
 #define WORLD_H
 #include "textrenderer.h"
@@ -87,7 +87,7 @@ public:
         glDrawBuffer(GL_NONE);
         glReadBuffer(GL_NONE);
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-            std::cout << "����::֡����:: ���֡���岻����!" << std::endl;
+            std::cout << "...." << std::endl;
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
@@ -98,6 +98,7 @@ public:
         delete ball;
         delete enemy;
         delete healthPacks;
+        delete skybox; // 释放天空盒
         delete simpleDepthShader;
         glDeleteTextures(1, &depthMap);
         glDeleteFramebuffers(1, &depthMapFBO);
@@ -161,8 +162,8 @@ public:
         healthPacks->Render(NULL, depthMap);
 		skybox->Render(camera->GetViewMatrix(), glm::perspective(glm::radians(camera->GetZoom()), windowSize.x / windowSize.y, 0.1f, 500.0f));
         player->Render();
-        std::wstring scoreStr = L"�÷�: " + std::to_wstring(GetScore());
-        std::wstring healthStr = L"Ѫ��: " + std::to_wstring(GetPlayerHealth()) + L"/" + std::to_wstring(GetMaxPlayerHealth());
+        std::wstring scoreStr = L"分数： " + std::to_wstring(GetScore());
+        std::wstring healthStr = L"生命值： " + std::to_wstring(GetPlayerHealth()) + L"/" + std::to_wstring(GetMaxPlayerHealth());
         textRenderer->RenderText(scoreStr, 25.0f, windowSize.y - 50.0f, 1.0f, glm::vec3(1, 1, 0), windowSize.x, windowSize.y);
         textRenderer->RenderText(healthStr, 25.0f, windowSize.y - 100.0f, 1.0f, glm::vec3(0, 1, 0), windowSize.x, windowSize.y);
 
@@ -175,17 +176,7 @@ public:
     size_t GetActiveHealthPackCount() const { return healthPacks->GetActiveHealthPackCount(); }
 
 	
-	~World() {
-		delete place;
-		delete player;
-		delete camera;
-		delete ball;
-		delete enemy;
-		delete skybox; // 释放天空盒
-		delete simpleDepthShader;
-		glDeleteFramebuffers(1, &depthMapFBO);
-		glDeleteTextures(1, &depthMap);
-	}
+	
 private:
     void RenderDepth() {
         glEnable(GL_DEPTH_TEST);

@@ -19,12 +19,12 @@ struct Bullet {
 	float speed;		// Bullet speed
 	float lifetime;		// Bullet lifetime
 	
-	// åŠ¨ç”»ç›¸å…³
-	int currentFrameIndex; // å½“å‰åŠ¨ç”»å¸§çš„ç´¢å¼• (0 åˆ° N-1)
-	float frameTimer;      // å½“å‰å¸§å·²æ˜¾ç¤ºçš„æ—¶é—´
-	float frameDuration;   // æ¯å¸§çš„æŒç»­æ—¶é—´ (ä¾‹å¦‚ï¼Œ0.1ç§’)
+	// ¶¯»­Ïà¹Ø
+	int currentFrameIndex; // µ±Ç°¶¯»­Ö¡µÄË÷Òı (0 µ½ N-1)
+	float frameTimer;      // µ±Ç°Ö¡ÒÑÏÔÊ¾µÄÊ±¼ä
+	float frameDuration;   // Ã¿Ö¡µÄ³ÖĞøÊ±¼ä (ÀıÈç£¬0.1Ãë)
 
-	Bullet(glm::vec3 pos, glm::vec3 dir, float spd = 100.0f, float frameDur = 0.1f) // å¢åŠ äº†é»˜è®¤å­å¼¹é€Ÿåº¦å’Œå¸§æŒç»­æ—¶é—´
+	Bullet(glm::vec3 pos, glm::vec3 dir, float spd = 100.0f, float frameDur = 0.1f) // Ôö¼ÓÁËÄ¬ÈÏ×Óµ¯ËÙ¶ÈºÍÖ¡³ÖĞøÊ±¼ä
 		: position(pos), direction(glm::normalize(dir)), speed(spd), lifetime(5.0f),
 		currentFrameIndex(0), frameTimer(0.0f), frameDuration(frameDur) {}
 };
@@ -44,13 +44,13 @@ class BallManager {
 private:
 	glm::vec2 windowSize;
 
-	// Model* ball; // ä¸å†æ˜¯å•ä¸ªæ¨¡å‹ï¼Œè€Œæ˜¯ä¸€ä¸ªæ¨¡å‹æ•°ç»„
-	std::vector<Model*> bulletFrames; // å­˜å‚¨å­å¼¹çš„æ‰€æœ‰åŠ¨ç”»å¸§æ¨¡å‹
-	int numBulletFrames;              // å­å¼¹åŠ¨ç”»çš„æ€»å¸§æ•°
+	// Model* ball; // ²»ÔÙÊÇµ¥¸öÄ£ĞÍ£¬¶øÊÇÒ»¸öÄ£ĞÍÊı×é
+	std::vector<Model*> bulletFrames; // ´æ´¢×Óµ¯µÄËùÓĞ¶¯»­Ö¡Ä£ĞÍ
+	int numBulletFrames;              // ×Óµ¯¶¯»­µÄ×ÜÖ¡Êı
 
-	Shader* ballShader; // å­å¼¹å…±ç”¨ä¸€ä¸ªç€è‰²å™¨
+	Shader* ballShader; // ×Óµ¯¹²ÓÃÒ»¸ö×ÅÉ«Æ÷
 	GLuint score;
-	// GLuint gameModel; // å¦‚æœæ¸¸æˆæ¨¡å¼å½±å“å­å¼¹è¡Œä¸ºï¼Œåˆ™ä¿ç•™
+	// GLuint gameModel; // Èç¹ûÓÎÏ·Ä£Ê½Ó°Ïì×Óµ¯ĞĞÎª£¬Ôò±£Áô
 	glm::vec3 lightPos;
 	glm::mat4 lightSpaceMatrix;
 
@@ -58,7 +58,7 @@ private:
 	std::vector<EnemyShooter> enemyShooters;
 
 	Camera* camera;
-	glm::mat4 model_matrix_temp; // é¿å…ä¸ Model ç±»åå†²çªï¼Œå¹¶æ˜ç¡®æ˜¯ä¸´æ—¶å˜é‡
+	glm::mat4 model_matrix_temp; // ±ÜÃâÓë Model ÀàÃû³åÍ»£¬²¢Ã÷È·ÊÇÁÙÊ±±äÁ¿
 	glm::mat4 projection;
 	glm::mat4 view;
 public:
@@ -71,11 +71,11 @@ public:
 		glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 		this->lightSpaceMatrix = lightProjection * lightView;
 
-		numBulletFrames = 0; // åˆå§‹åŒ–å¸§æ•°
-		LoadModelsAndShader(); // ä¿®æ”¹å‡½æ•°åï¼ŒåŠ è½½å¤šä¸ªæ¨¡å‹å’Œç€è‰²å™¨
+		numBulletFrames = 0; // ³õÊ¼»¯Ö¡Êı
+		LoadModelsAndShader(); // ĞŞ¸Äº¯ÊıÃû£¬¼ÓÔØ¶à¸öÄ£ĞÍºÍ×ÅÉ«Æ÷
 	}
 
-	~BallManager() { // æ·»åŠ ææ„å‡½æ•°æ¥é‡Šæ”¾æ¨¡å‹èµ„æº
+	~BallManager() { // Ìí¼ÓÎö¹¹º¯ÊıÀ´ÊÍ·ÅÄ£ĞÍ×ÊÔ´
 		for (Model* frame : bulletFrames) {
 			delete frame;
 		}
@@ -151,33 +151,33 @@ public:
 				AddBullet(shooter.enemyPosition, playerPos);
 				shooter.fireTimer = 0.0f;
 				
-				// é‡ç½®å°„å‡»é—´éš”ï¼Œå¢åŠ ä¸€äº›éšæœºæ€§
+				// ÖØÖÃÉä»÷¼ä¸ô£¬Ôö¼ÓÒ»Ğ©Ëæ»úĞÔ
 				shooter.fireRate = 1.5f + (rand() % 200) / 100.0f;
 			}
 		}
 	}
 	
-	// ä¿®æ”¹ UpdateBullets æ–¹æ³•ä»¥å¤„ç†åŠ¨ç”»å¸§æ›´æ–°
+	// ĞŞ¸Ä UpdateBullets ·½·¨ÒÔ´¦Àí¶¯»­Ö¡¸üĞÂ
 	void UpdateBullets(float deltaTime) {
-		for (size_t i = 0; i < bullets.size(); ++i) { // ä½¿ç”¨ ++i
-			// ç§»åŠ¨å­å¼¹
-			bullets[i].position += bullets[i].direction * bullets[i].speed * deltaTime; // ç¡®ä¿ä¹˜ä»¥ deltaTime
+		for (size_t i = 0; i < bullets.size(); ++i) { // Ê¹ÓÃ ++i
+			// ÒÆ¶¯×Óµ¯
+			bullets[i].position += bullets[i].direction * bullets[i].speed * deltaTime; // È·±£³ËÒÔ deltaTime
 			bullets[i].lifetime -= deltaTime;
 
-			// æ›´æ–°åŠ¨ç”»å¸§
-			if (numBulletFrames > 0) { // ä»…å½“æœ‰åŠ¨ç”»å¸§æ—¶æ‰æ›´æ–°
+			// ¸üĞÂ¶¯»­Ö¡
+			if (numBulletFrames > 0) { // ½öµ±ÓĞ¶¯»­Ö¡Ê±²Å¸üĞÂ
 				bullets[i].frameTimer += deltaTime;
 				if (bullets[i].frameTimer >= bullets[i].frameDuration) {
-					bullets[i].frameTimer -= bullets[i].frameDuration; // æˆ–è€… bullets[i].frameTimer = 0.0f;
+					bullets[i].frameTimer -= bullets[i].frameDuration; // »òÕß bullets[i].frameTimer = 0.0f;
 					bullets[i].currentFrameIndex = (bullets[i].currentFrameIndex + 1) % numBulletFrames;
 				}
 			}
 
-			// ç§»é™¤è¶…æ—¶æˆ–è¶…å‡ºèŒƒå›´çš„å­å¼¹
+			// ÒÆ³ı³¬Ê±»ò³¬³ö·¶Î§µÄ×Óµ¯
 			if (bullets[i].lifetime <= 0.0f ||
-				glm::length(bullets[i].position) > 500.0f) { // è°ƒæ•´å­å¼¹æœ€å¤§æ´»åŠ¨èŒƒå›´
+				glm::length(bullets[i].position) > 500.0f) { // µ÷Õû×Óµ¯×î´ó»î¶¯·¶Î§
 				bullets.erase(bullets.begin() + i);
-				i--; // å› ä¸ºåˆ é™¤äº†å…ƒç´ ï¼Œè°ƒæ•´ç´¢å¼•
+				i--; // ÒòÎªÉ¾³ıÁËÔªËØ£¬µ÷ÕûË÷Òı
 			}
 		}
 	}
@@ -185,11 +185,11 @@ public:
 	// Check player shooting
 	void CheckPlayerShooting(vec3 pos, vec3 dir) {
 		for (size_t i = 0; i < bullets.size(); i++) {
-			// è®¡ç®—å°„çº¿ä¸å­å¼¹çš„è·ç¦»
+			// ¼ÆËãÉäÏßÓë×Óµ¯µÄ¾àÀë
 			vec3 des = (pos.z - bullets[i].position.z) / (-dir.z) * dir + pos;
 			float distance = pow(bullets[i].position.x - des.x, 2) + pow(bullets[i].position.y - des.y, 2);
 			
-			if (distance <= 50) {  // å‡»ä¸­åˆ¤å®šèŒƒå›´
+			if (distance <= 50) {  // »÷ÖĞÅĞ¶¨·¶Î§
 				bullets.erase(bullets.begin() + i);
 				score++;
 				i--;
@@ -213,18 +213,18 @@ public:
 		return bullets.size();
 	}
 	
-	// ä¿®æ”¹ Render æ–¹æ³•ä»¥æ¸²æŸ“æ­£ç¡®çš„åŠ¨ç”»å¸§
+	// ĞŞ¸Ä Render ·½·¨ÒÔäÖÈ¾ÕıÈ·µÄ¶¯»­Ö¡
 	void Render(Shader* shaderToUse, GLuint depthMapID = 0) {
-		if (bulletFrames.empty() || !camera) return; // å¦‚æœæ²¡æœ‰åŠ è½½æ¨¡å‹å¸§æˆ–ç›¸æœºæ— æ•ˆåˆ™è¿”å›
+		if (bulletFrames.empty() || !camera) return; // Èç¹ûÃ»ÓĞ¼ÓÔØÄ£ĞÍÖ¡»òÏà»úÎŞĞ§Ôò·µ»Ø
 
-		// projection å’Œ view åº”è¯¥åœ¨å¾ªç¯å¤–æ›´æ–°ä¸€æ¬¡ï¼Œå› ä¸ºå®ƒä»¬å¯¹äºæ‰€æœ‰å­å¼¹éƒ½æ˜¯ç›¸åŒçš„
-		// ï¼ˆå·²åœ¨ BallManager::Update ä¸­æ›´æ–°äº† this->projection å’Œ this->viewï¼‰
+		// projection ºÍ view Ó¦¸ÃÔÚÑ­»·Íâ¸üĞÂÒ»´Î£¬ÒòÎªËüÃÇ¶ÔÓÚËùÓĞ×Óµ¯¶¼ÊÇÏàÍ¬µÄ
+		// £¨ÒÑÔÚ BallManager::Update ÖĞ¸üĞÂÁË this->projection ºÍ this->view£©
 
 		for (size_t i = 0; i < bullets.size(); ++i) {
-			if (bullets[i].currentFrameIndex >= numBulletFrames) continue; // å®‰å…¨æ£€æŸ¥
+			if (bullets[i].currentFrameIndex >= numBulletFrames) continue; // °²È«¼ì²é
 
 			Model* currentFrameModel = bulletFrames[bullets[i].currentFrameIndex];
-			if (!currentFrameModel) continue; // å®‰å…¨æ£€æŸ¥
+			if (!currentFrameModel) continue; // °²È«¼ì²é
 
 			const auto& subMeshes = currentFrameModel->GetSubMeshes();
 			if (subMeshes.empty()) continue;
@@ -232,18 +232,18 @@ public:
 
 			model_matrix_temp = glm::mat4(1.0f);
 			model_matrix_temp = glm::translate(model_matrix_temp, bullets[i].position);
-			// å¦‚æœå­å¼¹éœ€è¦æœå‘é£è¡Œæ–¹å‘ï¼Œè¿™é‡Œè¿˜éœ€è¦è®¡ç®—æ—‹è½¬
-			// glm::mat4 rotationMatrix = glm::lookAt(glm::vec3(0.0f), bullets[i].direction, camera->GetUp()); // GetUp()å¯èƒ½ä¸åˆé€‚ï¼Œç”¨worldUp
-			// model_matrix_temp *= glm::inverse(rotationMatrix); // lookAt è¿”å›çš„æ˜¯è§†å›¾çŸ©é˜µï¼Œéœ€è¦é€†
-			// æ›´ç®€å•çš„æ–¹å¼æ˜¯ç”¨å››å…ƒæ•°æˆ–ç›´æ¥æ„å»ºæ—‹è½¬çŸ©é˜µï¼Œä½†å¦‚æœdotæ¨¡å‹æœ¬èº«æ˜¯å¯¹ç§°çš„ï¼Œå¯èƒ½ä¸éœ€è¦æ—‹è½¬ã€‚
-			model_matrix_temp = glm::scale(model_matrix_temp, glm::vec3(0.5f)); // å­å¼¹å¤§å°
+			// Èç¹û×Óµ¯ĞèÒª³¯Ïò·ÉĞĞ·½Ïò£¬ÕâÀï»¹ĞèÒª¼ÆËãĞı×ª
+			// glm::mat4 rotationMatrix = glm::lookAt(glm::vec3(0.0f), bullets[i].direction, camera->GetUp()); // GetUp()¿ÉÄÜ²»ºÏÊÊ£¬ÓÃworldUp
+			// model_matrix_temp *= glm::inverse(rotationMatrix); // lookAt ·µ»ØµÄÊÇÊÓÍ¼¾ØÕó£¬ĞèÒªÄæ
+			// ¸ü¼òµ¥µÄ·½Ê½ÊÇÓÃËÄÔªÊı»òÖ±½Ó¹¹½¨Ğı×ª¾ØÕó£¬µ«Èç¹ûdotÄ£ĞÍ±¾ÉíÊÇ¶Ô³ÆµÄ£¬¿ÉÄÜ²»ĞèÒªĞı×ª¡£
+			model_matrix_temp = glm::scale(model_matrix_temp, glm::vec3(0.5f)); // ×Óµ¯´óĞ¡
 
 			Shader* currentShader = shaderToUse;
 			if (currentShader == NULL) {
 				currentShader = ballShader;
 				currentShader->Bind();
-				currentShader->SetMat4("projection", projection); // ä½¿ç”¨æˆå‘˜å˜é‡
-				currentShader->SetMat4("view", view);             // ä½¿ç”¨æˆå‘˜å˜é‡
+				currentShader->SetMat4("projection", projection); // Ê¹ÓÃ³ÉÔ±±äÁ¿
+				currentShader->SetMat4("view", view);             // Ê¹ÓÃ³ÉÔ±±äÁ¿
 				currentShader->SetVec3("viewPos", camera->GetPosition());
 			} else {
 				currentShader->Bind();
@@ -254,7 +254,7 @@ public:
 			if (currentShader == ballShader && depthMapID != 0) {
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, depthMapID);
-				// ballShader->SetInt("shadowMap", 0); // å·²åœ¨LoadModelsAndShaderä¸­è®¾ç½®
+				// ballShader->SetInt("shadowMap", 0); // ÒÑÔÚLoadModelsAndShaderÖĞÉèÖÃ
 			}
 
 			glBindVertexArray(firstSubMesh.VAO);
@@ -268,33 +268,33 @@ public:
 	}
 
 private:
-	// ä¿®æ”¹ LoadModel ä¸º LoadModelsAndShader
+	// ĞŞ¸Ä LoadModel Îª LoadModelsAndShader
 	void LoadModelsAndShader() {
-		// åŠ è½½æ‰€æœ‰å­å¼¹åŠ¨ç”»å¸§æ¨¡å‹
+		// ¼ÓÔØËùÓĞ×Óµ¯¶¯»­Ö¡Ä£ĞÍ
 		std::string frameNames[] = {"dot1.obj", "dot2.obj", "dot3.obj", "dot4.obj", "dot5.obj"};
 		numBulletFrames = sizeof(frameNames) / sizeof(frameNames[0]);
 
 		for (int i = 0; i < numBulletFrames; ++i) {
 			Model* frameModel = new Model("res/model/" + frameNames[i]);
-			if (frameModel) { // TODO: æ£€æŸ¥æ¨¡å‹æ˜¯å¦æˆåŠŸåŠ è½½ (ä¾‹å¦‚ï¼Œé€šè¿‡GetSubMeshes().empty())
+			if (frameModel) { // TODO: ¼ì²éÄ£ĞÍÊÇ·ñ³É¹¦¼ÓÔØ (ÀıÈç£¬Í¨¹ıGetSubMeshes().empty())
 				bulletFrames.push_back(frameModel);
 			} else {
-				std::cout << "é”™è¯¯: æ— æ³•åŠ è½½å­å¼¹æ¨¡å‹å¸§ " << frameNames[i] << std::endl;
-				// å¤„ç†åŠ è½½å¤±è´¥çš„æƒ…å†µï¼Œä¾‹å¦‚å°†numBulletFramesè®¾ç½®ä¸º0æˆ–æŠ›å‡ºå¼‚å¸¸
+				std::cout << "´íÎó: ÎŞ·¨¼ÓÔØ×Óµ¯Ä£ĞÍÖ¡ " << frameNames[i] << std::endl;
+				// ´¦Àí¼ÓÔØÊ§°ÜµÄÇé¿ö£¬ÀıÈç½«numBulletFramesÉèÖÃÎª0»òÅ×³öÒì³£
 			}
 		}
-		if(bulletFrames.empty()){ // å¦‚æœä¸€ä¸ªéƒ½æ²¡åŠ è½½æˆåŠŸ
+		if(bulletFrames.empty()){ // Èç¹ûÒ»¸ö¶¼Ã»¼ÓÔØ³É¹¦
 			numBulletFrames = 0;
-			std::cout << "è­¦å‘Š: æ²¡æœ‰æˆåŠŸåŠ è½½ä»»ä½•å­å¼¹æ¨¡å‹å¸§!" << std::endl;
+			std::cout << "¾¯¸æ: Ã»ÓĞ³É¹¦¼ÓÔØÈÎºÎ×Óµ¯Ä£ĞÍÖ¡!" << std::endl;
 		}
 
 
-		ballShader = new Shader("res/shader/ball.vert", "res/shader/ball.frag"); // å‡è®¾å­å¼¹ä½¿ç”¨ ball ç€è‰²å™¨
+		ballShader = new Shader("res/shader/ball.vert", "res/shader/ball.frag"); // ¼ÙÉè×Óµ¯Ê¹ÓÃ ball ×ÅÉ«Æ÷
 		ballShader->Bind();
-		ballShader->SetVec3("color", glm::vec3(1.0f, 0.2f, 0.2f));  // ä¾‹å¦‚ï¼Œçº¢è‰²å­å¼¹
-		ballShader->SetInt("shadowMap", 0); // å‘Šè¯‰ ballShader ä»çº¹ç†å•å…ƒ0è¯»å–é˜´å½±è´´å›¾
+		ballShader->SetVec3("color", glm::vec3(1.0f, 0.2f, 0.2f));  // ÀıÈç£¬ºìÉ«×Óµ¯
+		ballShader->SetInt("shadowMap", 0); // ¸æËß ballShader ´ÓÎÆÀíµ¥Ôª0¶ÁÈ¡ÒõÓ°ÌùÍ¼
 		ballShader->SetVec3("lightPos", lightPos);
-		// ballShader->SetVec3("viewPos", camera->GetPosition()); // viewPos åœ¨æ¸²æŸ“æ—¶åŠ¨æ€æ›´æ–°
+		// ballShader->SetVec3("viewPos", camera->GetPosition()); // viewPos ÔÚäÖÈ¾Ê±¶¯Ì¬¸üĞÂ
 		ballShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 		ballShader->Unbind();
 	}
