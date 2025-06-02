@@ -4,11 +4,8 @@
 
 ![capture](capture.png)
 
-通过根目录下exe文件可以直接打开
-
-或是通过以下网址观看视频预览：
-
-[OpenGL简易射击游戏_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1ca411Q7rF?vd_source=00267fad6fd11d2bde4476aea0c8689d)
+地图上会随机生成怪物，左上角有生命值和分数显示；
+游戏中一分钟为一天，地图上会有昼夜变换。
 
 ## 使用方法
 
@@ -17,4 +14,5 @@
 1. 下载代码，打开sln文件
 2. 将library中的include文件夹添加至附加包含目录
 3. 将library中的lib文件夹添加至附加库目录
-4. 运行代码
+4. 将opengl32.lib;glew32d.lib;irrKlang.lib;freetype.lib;添加到附加依赖项
+5. 运行代码
