@@ -12,7 +12,4 @@
 代码环境：Windows10，Visual Studio2022
 
 1. 下载代码，打开sln文件
-2. 将library中的include文件夹添加至附加包含目录
-3. 将library中的lib文件夹添加至附加库目录
-4. 将opengl32.lib;glew32d.lib;irrKlang.lib;freetype.lib;添加到附加依赖项
-5. 运行代码
+2. 运行代码

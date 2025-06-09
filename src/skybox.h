@@ -104,12 +104,12 @@ public:
 
         // Load nighttime cubemap texture
         std::vector<std::string> nightFaces = {
-            "res/texture/right.jpg",
-            "res/texture/left.jpg",
-            "res/texture/top.jpg",
-            "res/texture/bottom.jpg",
-            "res/texture/front.jpg",
-            "res/texture/back.jpg"
+            "res/texture/skybox/right.jpg",
+            "res/texture/skybox/left.jpg",
+            "res/texture/skybox/top.jpg",
+            "res/texture/skybox/bottom.jpg",
+            "res/texture/skybox/front.jpg",
+            "res/texture/skybox/back.jpg"
         };
         nightCubemapTexture = new Texture(nightFaces);
         if (!nightCubemapTexture->IsLoaded()) {

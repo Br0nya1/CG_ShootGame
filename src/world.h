@@ -122,7 +122,6 @@ public:
     }
 
     void Update(float deltaTime) {
-        if (gameOver) return;
 
         // Update day-night cycle
         gameTime += deltaTime;
@@ -199,11 +198,7 @@ public:
     }
 
     void Render() {
-        if (gameOver) {
-            glClearColor(0.5f, 0.0f, 0.0f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            return;
-        }
+
 
         // Render shadow map
         RenderDepth();
@@ -223,10 +218,24 @@ public:
         player->Render();
 
         // Render UI text
-        std::wstring scoreStr = L"Score: " + std::to_wstring(GetScore());
-        std::wstring healthStr = L"Health: " + std::to_wstring(GetPlayerHealth()) + L"/" + std::to_wstring(GetMaxPlayerHealth());
+        std::wstring scoreStr = L"得分: " + std::to_wstring(GetScore());
+        std::wstring healthStr = L"血量: " + std::to_wstring(GetPlayerHealth()) + L"/" + std::to_wstring(GetMaxPlayerHealth());
         textRenderer->RenderText(scoreStr, 25.0f, windowSize.y - 50.0f, 1.0f, glm::vec3(1, 1, 0), windowSize.x, windowSize.y);
         textRenderer->RenderText(healthStr, 25.0f, windowSize.y - 100.0f, 1.0f, glm::vec3(0, 1, 0), windowSize.x, windowSize.y);
+        if (gameOver) {
+            std::wstring line1 = L"游戏结束";
+            std::wstring line2 = L"按q键退出";
+            float scale = 2.5f;
+            // 简单估算文本宽度
+            float textWidth1 = line1.length() * 30.0f * scale;
+            float textWidth2 = line2.length() * 30.0f * scale;
+            float x1 = (windowSize.x - textWidth1) / 2.0f;
+            float x2 = (windowSize.x - textWidth2) / 2.0f;
+            float y = windowSize.y / 2.0f;
+            textRenderer->RenderText(line2, x1-60, y - 40.0f * scale, scale, glm::vec3(1, 1, 0), windowSize.x, windowSize.y); // 黄色
+            textRenderer->RenderText(line1, x2, y + 40.0f * scale, scale, glm::vec3(0.6f, 0, 1), windowSize.x, windowSize.y); // 紫色
+            return;
+        }
     }
 
     GLuint GetScore() { return enemy->GetKillCount(); }

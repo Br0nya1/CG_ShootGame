@@ -1,2 +1,6 @@
 PlatformToolSet=v143:VCToolArchitecture=Native64Bit:VCToolsVersion=14.43.34808:TargetPlatformVersion=10.0.22621.0:
+<<<<<<< HEAD
 Debug|x64|E:\CG\CG_ShootGame\|
+=======
+Debug|x64|C:\Users\zhang\CG_ShootGame\|
+>>>>>>> 3ee3834de8789a0e05d9741957ca5b946a946df6
