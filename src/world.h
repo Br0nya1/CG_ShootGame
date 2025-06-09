@@ -155,7 +155,7 @@ public:
 
         // Update light space matrix dynamically
         glm::vec3 lightPos = lightDir * -800.0f; // Position light based on direction
-        glm::mat4 lightProjection = glm::ortho(-250.0f, 250.0f, -250.0f, 250.0f, 1.0f, 1500.0f);
+        glm::mat4 lightProjection = glm::ortho(-400.0f, 400.0f, -400.0f, 400.0f, 1.0f, 2000.0f);
         glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         lightSpaceMatrix = lightProjection * lightView;
 
@@ -214,10 +214,11 @@ public:
         glDepthMask(GL_TRUE);
 
         // Render scene with dynamic lighting
-        place->RoomRender(NULL, depthMap);
         place->SunRender();
+        place->RoomRender(NULL, depthMap);
         enemy->Render(NULL, depthMap);
         ball->Render(NULL, depthMap);
+
         healthPacks->Render(NULL, depthMap);
         player->Render();
 

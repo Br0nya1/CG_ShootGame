@@ -245,6 +245,7 @@ public:
 				currentShader->SetMat4("projection", projection); // 使用成员变量
 				currentShader->SetMat4("view", view);             // 使用成员变量
 				currentShader->SetVec3("viewPos", camera->GetPosition());
+				currentShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 			} else {
 				currentShader->Bind();
 			}
