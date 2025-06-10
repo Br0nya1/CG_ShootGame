@@ -1,121 +1,6 @@
-﻿  main.cpp
-<<<<<<< HEAD
-E:\CG\CG_ShootGame\src\camera.h(103,32): warning C4244: “+=”: 从“double”转换到“float”，可能丢失数据
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\camera.h(104,34): warning C4244: “+=”: 从“double”转换到“float”，可能丢失数据
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\player.h(54,35): warning C4305: “参数”: 从“double”到“T”截断
-E:\CG\CG_ShootGame\src\player.h(54,35): warning C4305:         with
-E:\CG\CG_ShootGame\src\player.h(54,35): warning C4305:         [
-E:\CG\CG_ShootGame\src\player.h(54,35): warning C4305:             T=float
-E:\CG\CG_ShootGame\src\player.h(54,35): warning C4305:         ]
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\player.h(62,35): warning C4305: “参数”: 从“double”到“T”截断
-E:\CG\CG_ShootGame\src\player.h(62,35): warning C4305:         with
-E:\CG\CG_ShootGame\src\player.h(62,35): warning C4305:         [
-E:\CG\CG_ShootGame\src\player.h(62,35): warning C4305:             T=float
-E:\CG\CG_ShootGame\src\player.h(62,35): warning C4305:         ]
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\player.h(131,44): warning C4305: “参数”: 从“double”到“T”截断
-E:\CG\CG_ShootGame\src\player.h(131,44): warning C4305:         with
-E:\CG\CG_ShootGame\src\player.h(131,44): warning C4305:         [
-E:\CG\CG_ShootGame\src\player.h(131,44): warning C4305:             T=float
-E:\CG\CG_ShootGame\src\player.h(131,44): warning C4305:         ]
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\player.h(132,44): warning C4305: “参数”: 从“double”到“T”截断
-E:\CG\CG_ShootGame\src\player.h(132,44): warning C4305:         with
-E:\CG\CG_ShootGame\src\player.h(132,44): warning C4305:         [
-E:\CG\CG_ShootGame\src\player.h(132,44): warning C4305:             T=float
-E:\CG\CG_ShootGame\src\player.h(132,44): warning C4305:         ]
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\ballmanager.h(190,19): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\enemy.h(189,52): warning C4305: “参数”: 从“double”到“T”截断
-E:\CG\CG_ShootGame\src\enemy.h(189,52): warning C4305:         with
-E:\CG\CG_ShootGame\src\enemy.h(189,52): warning C4305:         [
-E:\CG\CG_ShootGame\src\enemy.h(189,52): warning C4305:             T=float
-E:\CG\CG_ShootGame\src\enemy.h(189,52): warning C4305:         ]
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\enemy.h(190,52): warning C4305: “参数”: 从“double”到“T”截断
-E:\CG\CG_ShootGame\src\enemy.h(190,52): warning C4305:         with
-E:\CG\CG_ShootGame\src\enemy.h(190,52): warning C4305:         [
-E:\CG\CG_ShootGame\src\enemy.h(190,52): warning C4305:             T=float
-E:\CG\CG_ShootGame\src\enemy.h(190,52): warning C4305:         ]
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\enemy.h(202,25): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\enemy.h(203,25): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\enemy.h(219,24): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\healthpackmanager.h(103,36): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\healthpackmanager.h(193,57): warning C4305: “参数”: 从“double”到“T”截断
-E:\CG\CG_ShootGame\src\healthpackmanager.h(193,57): warning C4305:         with
-E:\CG\CG_ShootGame\src\healthpackmanager.h(193,57): warning C4305:         [
-E:\CG\CG_ShootGame\src\healthpackmanager.h(193,57): warning C4305:             T=float
-E:\CG\CG_ShootGame\src\healthpackmanager.h(193,57): warning C4305:         ]
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\healthpackmanager.h(194,57): warning C4305: “参数”: 从“double”到“T”截断
-E:\CG\CG_ShootGame\src\healthpackmanager.h(194,57): warning C4305:         with
-E:\CG\CG_ShootGame\src\healthpackmanager.h(194,57): warning C4305:         [
-E:\CG\CG_ShootGame\src\healthpackmanager.h(194,57): warning C4305:             T=float
-E:\CG\CG_ShootGame\src\healthpackmanager.h(194,57): warning C4305:         ]
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\healthpackmanager.h(216,21): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\healthpackmanager.h(217,21): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\world.h(228,123): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
-E:\CG\CG_ShootGame\src\world.h(228,123): warning C4244:         with
-E:\CG\CG_ShootGame\src\world.h(228,123): warning C4244:         [
-E:\CG\CG_ShootGame\src\world.h(228,123): warning C4244:             T=float
-E:\CG\CG_ShootGame\src\world.h(228,123): warning C4244:         ]
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\world.h(228,109): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
-E:\CG\CG_ShootGame\src\world.h(228,109): warning C4244:         with
-E:\CG\CG_ShootGame\src\world.h(228,109): warning C4244:         [
-E:\CG\CG_ShootGame\src\world.h(228,109): warning C4244:             T=float
-E:\CG\CG_ShootGame\src\world.h(228,109): warning C4244:         ]
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\world.h(229,125): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
-E:\CG\CG_ShootGame\src\world.h(229,125): warning C4244:         with
-E:\CG\CG_ShootGame\src\world.h(229,125): warning C4244:         [
-E:\CG\CG_ShootGame\src\world.h(229,125): warning C4244:             T=float
-E:\CG\CG_ShootGame\src\world.h(229,125): warning C4244:         ]
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\world.h(229,111): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
-E:\CG\CG_ShootGame\src\world.h(229,111): warning C4244:         with
-E:\CG\CG_ShootGame\src\world.h(229,111): warning C4244:         [
-E:\CG\CG_ShootGame\src\world.h(229,111): warning C4244:             T=float
-E:\CG\CG_ShootGame\src\world.h(229,111): warning C4244:         ]
-  (编译源文件“src/main.cpp”)
-  
-E:\CG\CG_ShootGame\src\main.cpp(27,15): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-E:\CG\CG_ShootGame\src\main.cpp(53,26): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-LINK : warning LNK4098: 默认库“MSVCRT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
-  Shoot Game.vcxproj -> E:\CG\CG_ShootGame\x64\Debug\Shoot Game.exe
-=======
+﻿  glm.cpp
+  stb_image.cpp
+  main.cpp
 C:\Users\zhang\CG_ShootGame\src\camera.h(103,32): warning C4244: “+=”: 从“double”转换到“float”，可能丢失数据
   (编译源文件“src/main.cpp”)
   
@@ -153,13 +38,6 @@ C:\Users\zhang\CG_ShootGame\src\player.h(132,44): warning C4305:         ]
 C:\Users\zhang\CG_ShootGame\src\ballmanager.h(190,19): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
   (编译源文件“src/main.cpp”)
   
-C:\Users\zhang\CG_ShootGame\src\enemy.h(188,52): warning C4305: “参数”: 从“double”到“T”截断
-C:\Users\zhang\CG_ShootGame\src\enemy.h(188,52): warning C4305:         with
-C:\Users\zhang\CG_ShootGame\src\enemy.h(188,52): warning C4305:         [
-C:\Users\zhang\CG_ShootGame\src\enemy.h(188,52): warning C4305:             T=float
-C:\Users\zhang\CG_ShootGame\src\enemy.h(188,52): warning C4305:         ]
-  (编译源文件“src/main.cpp”)
-  
 C:\Users\zhang\CG_ShootGame\src\enemy.h(189,52): warning C4305: “参数”: 从“double”到“T”截断
 C:\Users\zhang\CG_ShootGame\src\enemy.h(189,52): warning C4305:         with
 C:\Users\zhang\CG_ShootGame\src\enemy.h(189,52): warning C4305:         [
@@ -167,13 +45,20 @@ C:\Users\zhang\CG_ShootGame\src\enemy.h(189,52): warning C4305:             T=fl
 C:\Users\zhang\CG_ShootGame\src\enemy.h(189,52): warning C4305:         ]
   (编译源文件“src/main.cpp”)
   
-C:\Users\zhang\CG_ShootGame\src\enemy.h(201,25): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
+C:\Users\zhang\CG_ShootGame\src\enemy.h(190,52): warning C4305: “参数”: 从“double”到“T”截断
+C:\Users\zhang\CG_ShootGame\src\enemy.h(190,52): warning C4305:         with
+C:\Users\zhang\CG_ShootGame\src\enemy.h(190,52): warning C4305:         [
+C:\Users\zhang\CG_ShootGame\src\enemy.h(190,52): warning C4305:             T=float
+C:\Users\zhang\CG_ShootGame\src\enemy.h(190,52): warning C4305:         ]
   (编译源文件“src/main.cpp”)
   
 C:\Users\zhang\CG_ShootGame\src\enemy.h(202,25): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
   (编译源文件“src/main.cpp”)
   
-C:\Users\zhang\CG_ShootGame\src\enemy.h(218,24): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+C:\Users\zhang\CG_ShootGame\src\enemy.h(203,25): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
+  (编译源文件“src/main.cpp”)
+  
+C:\Users\zhang\CG_ShootGame\src\enemy.h(219,24): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
   (编译源文件“src/main.cpp”)
   
 C:\Users\zhang\CG_ShootGame\src\healthpackmanager.h(103,36): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
@@ -199,63 +84,67 @@ C:\Users\zhang\CG_ShootGame\src\healthpackmanager.h(216,21): warning C4244: “�
 C:\Users\zhang\CG_ShootGame\src\healthpackmanager.h(217,21): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
   (编译源文件“src/main.cpp”)
   
-C:\Users\zhang\CG_ShootGame\src\world.h(222,123): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
-C:\Users\zhang\CG_ShootGame\src\world.h(222,123): warning C4244:         with
-C:\Users\zhang\CG_ShootGame\src\world.h(222,123): warning C4244:         [
-C:\Users\zhang\CG_ShootGame\src\world.h(222,123): warning C4244:             T=float
-C:\Users\zhang\CG_ShootGame\src\world.h(222,123): warning C4244:         ]
+C:\Users\zhang\CG_ShootGame\src\world.h(258,123): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
+C:\Users\zhang\CG_ShootGame\src\world.h(258,123): warning C4244:         with
+C:\Users\zhang\CG_ShootGame\src\world.h(258,123): warning C4244:         [
+C:\Users\zhang\CG_ShootGame\src\world.h(258,123): warning C4244:             T=float
+C:\Users\zhang\CG_ShootGame\src\world.h(258,123): warning C4244:         ]
   (编译源文件“src/main.cpp”)
   
-C:\Users\zhang\CG_ShootGame\src\world.h(222,109): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
-C:\Users\zhang\CG_ShootGame\src\world.h(222,109): warning C4244:         with
-C:\Users\zhang\CG_ShootGame\src\world.h(222,109): warning C4244:         [
-C:\Users\zhang\CG_ShootGame\src\world.h(222,109): warning C4244:             T=float
-C:\Users\zhang\CG_ShootGame\src\world.h(222,109): warning C4244:         ]
+C:\Users\zhang\CG_ShootGame\src\world.h(258,109): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
+C:\Users\zhang\CG_ShootGame\src\world.h(258,109): warning C4244:         with
+C:\Users\zhang\CG_ShootGame\src\world.h(258,109): warning C4244:         [
+C:\Users\zhang\CG_ShootGame\src\world.h(258,109): warning C4244:             T=float
+C:\Users\zhang\CG_ShootGame\src\world.h(258,109): warning C4244:         ]
   (编译源文件“src/main.cpp”)
   
-C:\Users\zhang\CG_ShootGame\src\world.h(223,125): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
-C:\Users\zhang\CG_ShootGame\src\world.h(223,125): warning C4244:         with
-C:\Users\zhang\CG_ShootGame\src\world.h(223,125): warning C4244:         [
-C:\Users\zhang\CG_ShootGame\src\world.h(223,125): warning C4244:             T=float
-C:\Users\zhang\CG_ShootGame\src\world.h(223,125): warning C4244:         ]
+C:\Users\zhang\CG_ShootGame\src\world.h(259,125): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
+C:\Users\zhang\CG_ShootGame\src\world.h(259,125): warning C4244:         with
+C:\Users\zhang\CG_ShootGame\src\world.h(259,125): warning C4244:         [
+C:\Users\zhang\CG_ShootGame\src\world.h(259,125): warning C4244:             T=float
+C:\Users\zhang\CG_ShootGame\src\world.h(259,125): warning C4244:         ]
   (编译源文件“src/main.cpp”)
   
-C:\Users\zhang\CG_ShootGame\src\world.h(223,111): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
-C:\Users\zhang\CG_ShootGame\src\world.h(223,111): warning C4244:         with
-C:\Users\zhang\CG_ShootGame\src\world.h(223,111): warning C4244:         [
-C:\Users\zhang\CG_ShootGame\src\world.h(223,111): warning C4244:             T=float
-C:\Users\zhang\CG_ShootGame\src\world.h(223,111): warning C4244:         ]
+C:\Users\zhang\CG_ShootGame\src\world.h(259,111): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
+C:\Users\zhang\CG_ShootGame\src\world.h(259,111): warning C4244:         with
+C:\Users\zhang\CG_ShootGame\src\world.h(259,111): warning C4244:         [
+C:\Users\zhang\CG_ShootGame\src\world.h(259,111): warning C4244:             T=float
+C:\Users\zhang\CG_ShootGame\src\world.h(259,111): warning C4244:         ]
   (编译源文件“src/main.cpp”)
   
-C:\Users\zhang\CG_ShootGame\src\world.h(234,122): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
-C:\Users\zhang\CG_ShootGame\src\world.h(234,122): warning C4244:         with
-C:\Users\zhang\CG_ShootGame\src\world.h(234,122): warning C4244:         [
-C:\Users\zhang\CG_ShootGame\src\world.h(234,122): warning C4244:             T=float
-C:\Users\zhang\CG_ShootGame\src\world.h(234,122): warning C4244:         ]
+C:\Users\zhang\CG_ShootGame\src\world.h(270,124): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
+C:\Users\zhang\CG_ShootGame\src\world.h(270,124): warning C4244:         with
+C:\Users\zhang\CG_ShootGame\src\world.h(270,124): warning C4244:         [
+C:\Users\zhang\CG_ShootGame\src\world.h(270,124): warning C4244:             T=float
+C:\Users\zhang\CG_ShootGame\src\world.h(270,124): warning C4244:         ]
   (编译源文件“src/main.cpp”)
   
-C:\Users\zhang\CG_ShootGame\src\world.h(234,108): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
-C:\Users\zhang\CG_ShootGame\src\world.h(234,108): warning C4244:         with
-C:\Users\zhang\CG_ShootGame\src\world.h(234,108): warning C4244:         [
-C:\Users\zhang\CG_ShootGame\src\world.h(234,108): warning C4244:             T=float
-C:\Users\zhang\CG_ShootGame\src\world.h(234,108): warning C4244:         ]
+C:\Users\zhang\CG_ShootGame\src\world.h(270,110): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
+C:\Users\zhang\CG_ShootGame\src\world.h(270,110): warning C4244:         with
+C:\Users\zhang\CG_ShootGame\src\world.h(270,110): warning C4244:         [
+C:\Users\zhang\CG_ShootGame\src\world.h(270,110): warning C4244:             T=float
+C:\Users\zhang\CG_ShootGame\src\world.h(270,110): warning C4244:         ]
   (编译源文件“src/main.cpp”)
   
-C:\Users\zhang\CG_ShootGame\src\world.h(235,122): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
-C:\Users\zhang\CG_ShootGame\src\world.h(235,122): warning C4244:         with
-C:\Users\zhang\CG_ShootGame\src\world.h(235,122): warning C4244:         [
-C:\Users\zhang\CG_ShootGame\src\world.h(235,122): warning C4244:             T=float
-C:\Users\zhang\CG_ShootGame\src\world.h(235,122): warning C4244:         ]
+C:\Users\zhang\CG_ShootGame\src\world.h(271,122): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
+C:\Users\zhang\CG_ShootGame\src\world.h(271,122): warning C4244:         with
+C:\Users\zhang\CG_ShootGame\src\world.h(271,122): warning C4244:         [
+C:\Users\zhang\CG_ShootGame\src\world.h(271,122): warning C4244:             T=float
+C:\Users\zhang\CG_ShootGame\src\world.h(271,122): warning C4244:         ]
   (编译源文件“src/main.cpp”)
   
-C:\Users\zhang\CG_ShootGame\src\world.h(235,108): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
-C:\Users\zhang\CG_ShootGame\src\world.h(235,108): warning C4244:         with
-C:\Users\zhang\CG_ShootGame\src\world.h(235,108): warning C4244:         [
-C:\Users\zhang\CG_ShootGame\src\world.h(235,108): warning C4244:             T=float
-C:\Users\zhang\CG_ShootGame\src\world.h(235,108): warning C4244:         ]
+C:\Users\zhang\CG_ShootGame\src\world.h(271,108): warning C4244: “参数”: 从“T”转换到“GLuint”，可能丢失数据
+C:\Users\zhang\CG_ShootGame\src\world.h(271,108): warning C4244:         with
+C:\Users\zhang\CG_ShootGame\src\world.h(271,108): warning C4244:         [
+C:\Users\zhang\CG_ShootGame\src\world.h(271,108): warning C4244:             T=float
+C:\Users\zhang\CG_ShootGame\src\world.h(271,108): warning C4244:         ]
   (编译源文件“src/main.cpp”)
   
 C:\Users\zhang\CG_ShootGame\src\main.cpp(28,15): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
 C:\Users\zhang\CG_ShootGame\src\main.cpp(54,26): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+  textrenderer.cpp
+  正在生成代码...
+  glad.c
+  LINK : 没有找到 C:\Users\zhang\CG_ShootGame\x64\Debug\Shoot Game.exe 或上一个增量链接没有生成它；正在执行完全链接
+LINK : warning LNK4098: 默认库“MSVCRT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
   Shoot Game.vcxproj -> C:\Users\zhang\CG_ShootGame\x64\Debug\Shoot Game.exe
->>>>>>> 3ee3834de8789a0e05d9741957ca5b946a946df6

@@ -104,20 +104,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-<<<<<<< HEAD
-      <AdditionalIncludeDirectories>E:\CG\CG_ShootGame\library\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-=======
       <AdditionalIncludeDirectories>$(ProjectDir)library\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
->>>>>>> 3ee3834de8789a0e05d9741957ca5b946a946df6
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-<<<<<<< HEAD
-      <AdditionalLibraryDirectories>E:\CG\CG_ShootGame\library\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-=======
       <AdditionalLibraryDirectories>$(ProjectDir)library\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
->>>>>>> 3ee3834de8789a0e05d9741957ca5b946a946df6
       <AdditionalDependencies>opengl32.lib;glew32d.lib;irrKlang.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>

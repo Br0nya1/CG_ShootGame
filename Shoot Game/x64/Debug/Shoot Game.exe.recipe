@@ -2,11 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-<<<<<<< HEAD
-      <FullPath>E:\CG\CG_ShootGame\x64\Debug\Shoot Game.exe</FullPath>
-=======
       <FullPath>C:\Users\zhang\CG_ShootGame\x64\Debug\Shoot Game.exe</FullPath>
->>>>>>> 3ee3834de8789a0e05d9741957ca5b946a946df6
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
