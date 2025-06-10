@@ -8,7 +8,7 @@ void PrepareOpenGL();
 GLFWwindow* window;
 vec2 windowSize;
 
-ISoundEngine* seeyouagain= createIrrKlangDevice();
+ISoundEngine* seeyouagain = createIrrKlangDevice();
 int main() {
     // Initialize GLFW
     if (!glfwInit()) {
@@ -17,7 +17,7 @@ int main() {
     }
 
     const double TARGET_FRAME = 0.016667;
-    const double FRAME_ALPHA = 0.25; 
+    const double FRAME_ALPHA = 0.25;
     double currentFrame;
     double deltaTime;
     double lastFrame;
@@ -29,7 +29,7 @@ int main() {
 
     GLuint gameModel = 1;
     cout << "Welcome to the Game!\n";
-        
+
     OpenWindow();
     PrepareOpenGL();
 
@@ -52,14 +52,14 @@ int main() {
             lastFrame = currentFrame;
 
             world.Update(deltaTime);
-            
+
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             world.Render();
 
             glfwSwapBuffers(window);
             glfwPollEvents();
             if (world.IsOver()) {
-            gangguan->play2D("res/audio/seeyouagain.mp3", GL_TRUE);
+                gangguan->play2D("res/audio/seeyouagain.mp3", GL_TRUE);
                 while (!glfwWindowShouldClose(window)) {
                     glfwPollEvents();
                     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {

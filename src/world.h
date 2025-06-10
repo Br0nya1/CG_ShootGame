@@ -16,6 +16,8 @@ using namespace irrklang;
 #include "enemy.h"
 #include "skybox.h"
 #include "healthpackmanager.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
 
 ISoundEngine* gangguan = createIrrKlangDevice();
 
@@ -51,11 +53,31 @@ private:
     float dayNightCycle; // Normalized [0, 1] for day-night transition
 
 public:
+    void SaveScreenshot(const std::string& filename) {
+        int width = (int)windowSize.x;
+        int height = (int)windowSize.y;
+        std::vector<unsigned char> pixels(width * height * 3);
+
+        glPixelStorei(GL_PACK_ALIGNMENT, 1);
+        glReadBuffer(GL_FRONT);
+        glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
+
+        // OpenGL读取的像素是从左下角开始的，需要翻转
+        std::vector<unsigned char> flipped(width * height * 3);
+        for (int y = 0; y < height; ++y) {
+            memcpy(&flipped[y * width * 3],
+                &pixels[(height - 1 - y) * width * 3],
+                width * 3);
+        }
+
+        stbi_write_png(filename.c_str(), width, height, 3, flipped.data(), width * 3);
+    }
+
     World(GLFWwindow* window, glm::vec2 windowSize) : gameTime(0.0f) {
         this->window = window;
         this->windowSize = windowSize;
 
-        playerHealth = 10;
+        playerHealth = 10000000;
         maxPlayerHealth = 10;
         gameOver = false;
 
@@ -154,7 +176,7 @@ public:
 
         // Update light space matrix dynamically
         glm::vec3 lightPos = lightDir * -800.0f; // Position light based on direction
-        glm::mat4 lightProjection = glm::ortho(-250.0f, 250.0f, -250.0f, 250.0f, 1.0f, 1500.0f);
+        glm::mat4 lightProjection = glm::ortho(-400.0f, 400.0f, -400.0f, 400.0f, 1.0f, 2000.0f);
         glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         lightSpaceMatrix = lightProjection * lightView;
 
@@ -195,6 +217,19 @@ public:
                 std::cout << "Game Over! Player died!" << std::endl;
             }
         }
+        // 在Update函数内合适位置添加
+        static bool i_key_was_pressed = false;
+        bool i_key_currently_pressed = (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS);
+        if (i_key_currently_pressed && !i_key_was_pressed) {
+            // 确保out目录存在
+            system("mkdir -p out");
+            // 文件名可带时间戳防止覆盖
+            std::string filename = "out/screenshot.png";
+            SaveScreenshot(filename);
+            std::cout << "截图已保存到: " << filename << std::endl;
+        }
+        i_key_was_pressed = i_key_currently_pressed;
+
     }
 
     void Render() {
@@ -209,10 +244,11 @@ public:
         glDepthMask(GL_TRUE);
 
         // Render scene with dynamic lighting
-        place->RoomRender(NULL, depthMap);
         place->SunRender();
+        place->RoomRender(NULL, depthMap);
         enemy->Render(NULL, depthMap);
         ball->Render(NULL, depthMap);
+
         healthPacks->Render(NULL, depthMap);
         player->Render();
 
@@ -231,7 +267,7 @@ public:
             float x1 = (windowSize.x - textWidth1) / 2.0f;
             float x2 = (windowSize.x - textWidth2) / 2.0f;
             float y = windowSize.y / 2.0f;
-            textRenderer->RenderText(line2, x1-60, y - 40.0f * scale, scale, glm::vec3(1, 1, 0), windowSize.x, windowSize.y); // 黄色
+            textRenderer->RenderText(line2, x1 - 60, y - 40.0f * scale, scale, glm::vec3(1, 1, 0), windowSize.x, windowSize.y); // 黄色
             textRenderer->RenderText(line1, x2, y + 40.0f * scale, scale, glm::vec3(0.6f, 0, 1), windowSize.x, windowSize.y); // 紫色
             return;
         }

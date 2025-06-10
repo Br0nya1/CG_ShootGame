@@ -61,7 +61,9 @@ public:
     }
 
     void Update() {
-        this->model_matrix = mat4(1.0);
+        this->model_matrix = glm::mat4(1.0f);
+        // this->model_matrix = glm::scale(this->model_matrix, glm::vec3(1.0f, 0.5f, 1.0f));  // 修改地图高度为原来一半
+
         this->view = camera->GetViewMatrix();
         this->projection = perspective(radians(camera->GetZoom()), windowSize.x / windowSize.y, 0.1f, 2000.0f);
     }
@@ -77,6 +79,7 @@ public:
             currentShader->SetMat4("view", view);
             currentShader->SetMat4("projection", projection);
             currentShader->SetVec3("viewPos", camera->GetPosition());
+            currentShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 
             if (depthMapID != 0) {
                 glActiveTexture(GL_TEXTURE1); // Activate texture unit 1 for shadow map

@@ -108,6 +108,7 @@ public:
                 currentShader->Bind();
                 currentShader->SetMat4("projection", projection);
                 currentShader->SetMat4("view", view);
+                currentShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
                 // 如果 enemyShader 需要其他 uniforms (如 viewPos, lightPos)，也应在此处设置
                 currentShader->SetVec3("viewPos", camera->GetPosition());
                 // lightPos 等已在 LoadShader 中为 enemyShader 设置过，如果是静态的就不用每帧传
